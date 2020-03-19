@@ -1,0 +1,155 @@
+{% extends 'sbase.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style>
+
+</style>
+
+</head>
+<body >
+{% block content%}
+  <div class="container">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4">
+    <div class="panel-group">
+    <div class="panel panel-default" style="margin: 30px; width: 600px;">
+      <div class="panel-heading text-center custom_class" style="background-color:#CA226B;color: white; height: 100px;border:2px solid DodgerBlue"><p style="margin-top: 20px;">Client On Site</p></div>
+      <div class="panel-body">
+        <form  action="" method="POST" class="col-sm-12" autocomplete="off" id="addinfo">
+          {% csrf_token %}
+            
+                   <div class="form-group">
+                    <label>Organization</label>
+                    <div ><!-- <input type="text" name="name" autocomplete="off" class="form-control"> -->{{form.organization}}</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Name</label>
+                    <div ><!-- <input type="text" name="name" autocomplete="off" class="form-control"> -->{{form.sname}}</div>
+                  </div>
+
+                   <div class="form-group">
+                    <label>Contacted Person</label>
+                    <div ><!-- <input type="text" name="cperson" autocomplete="off" class="form-control"> -->{{form.cperson}}</div>
+                  </div>
+
+                   <div class="form-group">
+                    <label>Purpose</label>
+
+                    <div ><!-- <textarea type="text" name="purpose" autocomplete="off" class="form-control"></textarea> -->{{form.purpose}}</div>
+                    
+                  </div>
+
+                  <div class="form-group">
+                    <label>Approved By</label>
+                    <div ><!-- <input type="text" name="approvedby" autocomplete="off" class="form-control"> -->{{form.appby}}</div>
+                  </div>
+
+              
+                  <div class="form-group">
+                    <label>Date</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Time In</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Time Out</label>
+                    <div class="row">
+                    <div class="col-sm-4"><!-- <input type="text" name="workdate" id="date" class="form-control"  > -->{{form.workdate}}</div>
+                    <div class="col-sm-4" ><!-- <input type="time" name="time" autocomplete="off" class="form-control" placeholder="03:48 PM"> -->{{form.worktimein}}</div>
+                    <div class="col-sm-4" ><!-- <input type="time" name="time" autocomplete="off" class="form-control" placeholder="03:48 PM"> -->{{form.worktimeout}}</div>
+                    </div>
+                  </div>
+
+
+                  
+                  <div class="form-group">
+                    <label>Work Done</label>
+                    <div ><!-- <textarea type="text" name="workdone" autocomplete="off" class="form-control" ></textarea> -->{{form.workdone}}</div>
+                  </div>
+
+                       
+              
+                    <div class="form-group">
+                    <label>Description</label>
+                    <div ><!-- <textarea type="text" name="description" autocomplete="off" class="form-control" ></textarea> -->{{form.description}}</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label><input type="checkbox" id="check1">&nbsp;&nbsp;Product details</label>
+                  </div>
+
+                  <div id="proid" style="display: none">
+                  <div class="panel-group" >
+                    <div class="panel panel-default">
+                      <div class="panel-heading custom_class">Products</div>
+                      <div class="panel-body">
+                         <div class="form-group">
+                            <label>Product Name</label>
+                            <div ><!-- <textarea type="text" name="product" autocomplete="off" class="form-control" ></textarea> -->{{form.proname}}</div>
+                          </div>
+
+                             <div class="form-group">
+                              <label>Serial No</label>
+                              <div ><!-- <input type="number" name="serialno" autocomplete="off" class="form-control"> -->{{form.serialno}}</div>
+                            </div>
+
+                           <div class="form-group">
+                              <label>Product Approved By</label>
+                               <div ><!-- <input type="text" name="papprovedby" autocomplete="off" class="form-control"> -->{{form.proappby}}</div> 
+                            </div>
+
+                            
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                 </div> 
+          
+
+              </div>
+             
+          
+         
+            <div class="text-center">
+            <button class="btn  button " type="submit" style="width: 200px; color: white;font-size: 20px;">Send</button>
+            </div><br>
+         
+
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+  {% block javascript %}
+<script >
+ 
+$(function () {
+        $("#check1").click(function () {
+            if ($(this).is(":checked")) {
+                $("#proid").show();
+            } else {
+                $("#proid").hide();
+            }
+        });
+    });
+
+ var todaydate = new Date();
+ var day = todaydate.getDate();
+ var month = todaydate.getMonth() + 1;
+ var year = todaydate.getFullYear();
+ var datestring = day + "/" + month + "/" + year;
+ window.onload = function(){
+ document.getElementById("date").value = datestring;
+ }
+ 
+ 
+
+</script>
+
+
+  {% endblock javascript %}
+{% endblock %}
+</body>
+</html>

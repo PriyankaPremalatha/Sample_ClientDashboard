@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="signup-form">
+    <form action="" method="post" autocomplete="off">
+        {% csrf_token %}
+        <div class="form-group">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+
+            <div class="alert alert-success">{{message}}</div>
+            {% endfor %}
+
+        </ul>
+
+        {% endif %}
+        
+    </div>
+        
+		<h2>Register</h2>
+		
+        <div class="form-group">
+			<div class="row">
+				<div class="col-xs-6">{{form.first_name}}</div>
+				<div class="col-xs-6">{{form.last_name}}</div>
+			</div>        	
+        </div>
+        <div class="form-group">
+            {{form.username}}
+            {{form.username.errors}}
+        </div>
+        <div class="form-group">
+        	{{form.email}}
+            {{form.email.errors}}
+        </div>
+        <div class="form-group">
+            <p style="font-size: 16px;" class="checkbox-inline" optional=true>{{form.is_staff}}&nbsp; Staff</p>
+        </div>   
+        
+		<div class="form-group">
+            {{form.password1}}
+            {{form.password1.errors}}
+        </div>
+		<div class="form-group">
+            {{form.password2}}
+            {{form.password2.errors}}
+        </div>        
+       <!--  <div class="form-group">
+			<p class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></p>
+		</div> -->
+		<div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+        </div>
+        <div class="text-center">Already have an account? <a href="{% url 'loginform' %}">Sign in</a></div>
+    </form>
+	
+</div>
+
+{% endblock %}

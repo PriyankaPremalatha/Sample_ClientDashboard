@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+   <link rel="stylesheet" type="text/css" href="{% static 'effects/style.css' %}">
+   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<style>
+ #navstyle
+   {
+    font-size: 20px;
+      color: white;
+
+   }
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 5px 10px 10px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  color: white;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.sidenav a:hover {
+  background:brown;
+}
+
+#navstyle a:hover {
+  background:brown;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  
+}
+
+
+</style>
+</head>
+<body>
+	{% block content %}
+<nav class="navbar" style="background-color: #111">
+  <div class="container-fluid">
+    <div class="navbar-header ">
+    </div>
+    <ul class="nav navbar-nav" >
+      <span style="font-size:30px;cursor:pointer;color: white;" onclick="openNav()">&#9776; </span>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right " id="navstyle">
+       <li><a id="navstyle" href="" >{{request.user.username}}</a></li> 
+      <li><a id="navstyle" href="{% url 'loginform' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+
+
+    <div id="mySidenav" class="sidenav ">
+  <a href="javascript:void(0)"  style="font-size:30px;cursor:pointer;color: white;" class="closebtn" onclick="closeNav()">&#10094;</a>
+  <a href="{% url 'systeminfo' %}">Add System Info</a>
+    <a href="{% url 'systemhealth' %}">Dashboard</a>
+    <a href="#">Users</a>
+    <a href="#">Outlook Working</a>
+    <a href="#">Event Viewer</a>
+    <a href="#">P drive Access</a>
+    <a href="#">Hardisk Space</a>
+
+</div>
+
+  </div>
+
+</nav>
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+<form method='POST' class="post-form" style="margin-top: 30px;" autocomplete="off" >
+	{% csrf_token %}
+	
+	<div class="form-group">
+		<label>User</label>
+		<div>{{form.sys_user}}</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label>Windows Update</label>
+		<div>{{form.windowsuptodate}}</div>
+		
+	</div>
+	
+	<div class="form-group">
+		<label>Hard Disk Space</label>
+		<div>{{form.hardisk}}</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label>OutLook</label>
+		<div>{{form.outlook}}</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label>Event Viewer</label>
+		<div>{{form.eventviewer}}</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label>Jabra direct</label>
+		<div>{{form.jabradirect}}</div>
+		
+	</div>	
+
+	<div class="form-group">
+		<label>Software</label>
+		<div>{{form.softwareupdatetodate}}</div>
+		
+	</div>
+
+	<div class="form-group">
+		<label>P Drive Access</label>
+		<div>{{form.pdriveaccess}}</div>
+	</div>
+	
+	<div class="form-group">
+		<label>Windows Activaion</label>
+		<div>{{form.windowsactivation}}</div>
+		
+	</div>
+
+	
+
+	<button type="submit" class="btn btn-success">Submit</button>
+	
+</form>
+</div>
+
+{% block javascript %}
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+{% endblock javascript %}
+{% endblock %}
+</body>
+</html> 
+

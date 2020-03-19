@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<nav class="navbar" style="background-color: #111">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    </div>
+    <ul class="nav navbar-nav" id="navstyle">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="">Contact Us</a></li>
+      <li><a href="#">About</a></li>
+      
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right " id="navstyle">
+       <li><a href="{% url 'registerform' %}" ><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> 
+      <li><a href="{% url 'loginform' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+{% endblock %}

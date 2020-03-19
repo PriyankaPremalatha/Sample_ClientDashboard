@@ -1,0 +1,39 @@
+{% extends 'sbase.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  {% block content %}
+
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+     
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Dashboard</a></li>
+      <li><a href="{% url 'onsites'%}">Onsite</a></li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
+    </ul>
+  </div>
+</nav>
+  
+
+ <div class="form-group">
+        {% if messages %}
+        <div class="messages">
+            {% for msg in messages %}
+
+            <div class="alert alert-success">{{msg}}</div>
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+{% endblock %}
+</body>
+</html>
