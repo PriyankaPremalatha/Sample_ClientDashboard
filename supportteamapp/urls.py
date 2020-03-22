@@ -6,9 +6,11 @@ urlpatterns=[
 
 	path("sregister/",views.sregister,name="sregister"),
 	path("slogin/",views.slogin,name="slogin"),
-	path("",views.sindex,name="sindex"),
+	path("sinde/",views.sindex,name="sindex"),
 	path("onsite/",views.onsite,name="onsites"),
-	path("supportindex/",views.supportindex,name="supportindex"),
+	path("supportindex/systemfile_upload/",views.systemfile_upload,name="systemfile_upload"),
+	path("supportindex/onsitefile_upload/",views.onsitefile_upload,name="onsitefile_upload"),
+	path("",views.supportindex,name="supportindex"),
 	path("orgnameinsertion/",views.OrgnameInsertion.as_view(),name="orgnameinsertion"),
 	path("systeminfoinsert/",views.SystemInfoInsert.as_view(),name="systeminfoinsert"),
 ]

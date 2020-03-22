@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from supportteamapp.models import OrgInsertion
 # Create your models here.
 
 class SystemInfo(models.Model):
@@ -64,3 +65,14 @@ class SystemInfo(models.Model):
 	time=models.TimeField(auto_now=True)
 
 
+class SystemRequirementModel(models.Model):
+	reqpname=models.ForeignKey(OrgInsertion, on_delete=models.CASCADE)
+	pname=models.CharField(max_length=100)
+	hddtype=models.CharField(max_length=100)
+	disksize=models.CharField(max_length=100)
+	ndisk=models.CharField(max_length=150)
+	cpucore=models.CharField(max_length=100)
+	ramsize=models.CharField(max_length=100)
+	nmonitors=models.CharField(max_length=100)
+	timestamp=models.DateTimeField(auto_now=True)
+	

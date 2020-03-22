@@ -66,6 +66,14 @@
           </a>
           
         </li>
+
+          <li class="nav-item dropdown" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link" href="#importfileModal" data-toggle="modal" data-target="#importfileModal">
+            <i class="fa fa-fw fa-file"></i>
+            <span class="nav-link-text">Import File</span>
+          </a>
+
+        </li>
         
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components" hidden="true">
           <a class="nav-link" href="">
@@ -610,6 +618,53 @@
       </div>
     </div>
 
+     <!-- Import File Modal-->
+    <div class="modal fade" id="importfileModal" tabindex="-1" role="dialog" aria-labelledby="importfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="importfileModalLabel">Choose the options</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body text-center" >
+            
+            <button id="sysinfofile" class="btn btn-default" >System Information</button>
+            <button id="onsiteinfofile" class="btn btn-default"  style="margin-left: 10px;">Onsite Information</button>
+
+            <!-- system information -->
+            <div id="sysinfoid" style="display: none">
+              {{order}}
+              <form method="post" enctype="multipart/form-data" id="addsysfile" action="systemfile_upload/">
+              {% csrf_token %}
+              <div style="margin-top: 50px;px;">
+              <label style="font-family: Palatino Linotype;">Upload a System Information file</label><br>
+                <input type="file" name="file" class="form-control">
+                <p>Only acepts CSV files</p>
+                <button class="btn btn-info" type="submit">Upload System Info File</button>
+                </div>
+              </form>
+            </div>
+
+              <!-- Onsite information -->
+             <div id="onsiteid" style="display: none">
+              <form method="post" enctype="multipart/form-data" action="onsitefile_upload/">
+              {% csrf_token %}
+              <div style="margin-top: 50px;px;">
+              <label style="font-family: Palatino Linotype;">Upload a Onsite Information file</label><br>
+                <input type="file" name="file" class="form-control">
+                <p>Only acepts CSV files</p>
+                <button class="btn btn-info" type="submit">Upload Onsite Info File</button>
+                </div>
+              </form>
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
 <!-- System Information Form Modal-->
     <div class="modal fade" id="systeminfoModal" tabindex="-1" role="dialog" aria-labelledby="systeminfoModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -644,6 +699,15 @@
 
                     </div>
 
+                    <div class="form-group">
+                     <select class="form-control" id="department" name="department">
+                        <option selected>Choose department</option>
+                        <option value="Department1">Department1</option>
+                        <option value="Depatment2">Depatment2</option>
+                       
+                      </select>
+
+                    </div>
 
                     <div class="form-group">
                      <select class="form-control" id="hddspace" name="hddspace">
@@ -730,7 +794,7 @@
 
                     </div>
                 
-
+                        
               
                
 
@@ -740,8 +804,9 @@
             
 
             <button class="btn btn-primary" id="sendid" type="submit" style="color: white;display: none;" >Send</button>
-            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
             <button class="btn btn-info" type="button" id="ser-btn">Confirm</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+            
           </div>
           </form>
         </div>
@@ -921,7 +986,22 @@
 {% block javascript %}
       <script type="text/javascript">
         
-          
+        //sysinfo fileupload
+          $(document).ready(function(){
+            $("#sysinfofile").click(function(){      
+            $("#sysinfoid").show();
+            $("#onsiteid").hide();
+            });
+          });
+
+            $(document).ready(function(){
+            $("#onsiteinfofile").click(function(){      
+            $("#onsiteid").show();
+            $("#sysinfoid").hide();
+            });
+          });
+                  
+                  
 // ticket insert code
      $("#addTicket").submit(function(){
       
@@ -984,7 +1064,7 @@
               alert("Enter the missing fields");
             }
 
-            $('form#addTicket').trigger("reset");
+            $('#addTicket').trigger("reset");
         $('#MyTicketModal').modal('hide');
        return false;
 
@@ -1035,7 +1115,7 @@
               $('#addorgModal').modal('show');
             }
 
-         $('form#addorg').trigger("reset");
+         $('#addorg').trigger("reset");
       $('#addorgModal').modal('hide');
       return false;
 
@@ -1051,6 +1131,9 @@
               
               var sysname=$('input[name="sysname"]').val().trim();
               
+              var element=document.getElementById("department");
+              var department=element.options[element.selectedIndex].value;
+
               var element=document.getElementById("hddspace");
               var diskspace=element.options[element.selectedIndex].value;
               
@@ -1072,16 +1155,19 @@
 
               var ongoingissues=$('textarea[name="ongoingissues"]').val().trim();
 
-              alert(ongoingissues);
+              
+
+              
               if(sysname=="" && orgname=="Choose Organization" && diskspace=="Disk Space" && ramsize=="Select RAM size" && winupdate=="Windows Update Status" && powerstatus=="Power Status" && syshealth=="Health Status")
               {
                 alert("Please Enter missing fields");
-                $('#systeminfoModal').modal('show');
+                
               }
               else
               {
-                  alert(orgname);
+                  
                    $.ajax({
+
 
                           url:'{% url "systeminfoinsert" %}',
                           
@@ -1089,6 +1175,7 @@
                                   
                                   'orgname':orgname,
                                   'sysname':sysname,
+                                  'department':department,
                                   'hddspace':diskspace,
                                   'ramsize':ramsize,
                                   'winstatus':winupdate,
@@ -1096,7 +1183,8 @@
                                   'healthstatus':syshealth,
                                   'powerstatus':powerstatus,
                                   'issues':issues,
-                                  'ongoingissues':ongoingissues
+                                  'ongoingissues':ongoingissues,
+                                  
                           },
                           dataType:'json',
                           success:function()
@@ -1117,6 +1205,7 @@
       return false;
 
         });
+
 
 
             ;(function(ns) { // ns - namesapce into which tagify function should be set (in our case it is window)

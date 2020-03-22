@@ -50,19 +50,26 @@ class RegisterForm(UserCreationForm):
 				raise forms.ValidationError("Password should not all numeric")
 
 class OnsiteForm(forms.ModelForm):
-	organization=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True)
-	sname=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True)
-	cperson=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True)
-	purpose=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}),required=True,max_length=250)
-	appby=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True)
+
+	org_choices=(
+
+		('Extraviz','Extraviz'),
+		('Click-Logistics','Click-Logistics'),
+
+		)
+	organization=forms.CharField(widget=forms.Select(choices=org_choices,attrs={'class':'form-control','placeholder':'Choose Organization'}),required=True)
+	sname=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter your name'}),required=True)
+	cperson=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter contacted person name'}),required=True)
+	purpose=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Enter the purpose'}),required=True)
+	appby=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter name of person who approved you'}),required=True)
 	workdate=forms.DateField(widget=forms.DateInput(attrs={'class':'form-control','type':'date'}),required=True)
-	worktimein=forms.TimeField(input_formats=['%I:%M %p'],widget=forms.TimeInput(attrs={'class':'form-control'}),required=True)
+	worktimein=forms.TimeField(input_formats=['%I:%M %p'],widget=forms.TimeInput(attrs={'class':'form-control '}),required=True)
 	worktimeout=forms.TimeField(input_formats=['%I:%M %p'],widget=forms.TimeInput(attrs={'class':'form-control'}),required=True)
-	workdone=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}),max_length=250)
-	description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}),max_length=250)
-	proname=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text='Optional',required=False)
-	serialno=forms.IntegerField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text='Optional',required=False)
-	proappby=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text='Optional',required=False)
+	workdone=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Enter about the work done by you'}))
+	description=forms.CharField(widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Give small description'}))
+	proname=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter product name'}),help_text='Optional',required=False)
+	serialno=forms.IntegerField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter product number'}),help_text='Optional',required=False)
+	proappby=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter the person name who approved'}),help_text='Optional',required=False)
 		
 
 
@@ -70,22 +77,24 @@ class OnsiteForm(forms.ModelForm):
 		model=OnsiteModel
 		fields=["organization","sname","cperson","purpose","appby","workdate","worktimein","worktimeout","workdone","description","proname","serialno","proappby"]
 
+	
+        
+        
+        
+  
+        
+        
+        
+  
+  
 
 
-	def clean_purpose(self):
-		pur=self.cleaned_data("purpose")	
-		
-		MAX_LENGTH=250
-		if len(pur)>MAX_LENGTH:
-			raise forms.ValidationError("Maximum %d characters"%MAX_LENGTH)		
-		
-	def clean_description(self):
-		des=self.cleaned_data("description")	
-		
-		MAX_LENGTH=250
-		if len(des)>MAX_LENGTH:
-			raise forms.ValidationError("Maximum %d characters"%MAX_LENGTH)		
-		
-				
-			
-				
+       
+        
+       
+          
+        
+	
+  
+
+

@@ -583,7 +583,7 @@ div.custom-scrollbar {
 .o-tagify INPUT {
   padding: .5rem 0 .5rem .15rem;
   margin-bottom: .1rem;
-  border-radius: 10px;
+  
   
   background: rgb(252, 252, 252);
 }
@@ -596,8 +596,8 @@ div.custom-scrollbar {
   vertical-align: middle;
   border: 1px solid cornflowerblue;
   border-radius: .2rem;
-  background: cornflowerblue;
-  color: #fff;
+  /*background: cornflowerblue;*/
+  color: black;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
 }
 .o-tagify__btn {

@@ -4,10 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
-from .models import SystemInfo
+from .models import SystemInfo,SystemRequirementModel
 from django.views.generic import ListView
-from supportteamapp.models import SystemUpdateInfo
+from supportteamapp.models import SystemUpdateModel
 from django.http import JsonResponse
+from supportteamapp.models import OrgInsertion,SystemUpdateModel
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 
@@ -52,21 +53,18 @@ def index(request):
 
 @login_required(login_url='loginform')
 def systemhealth(request):
-	total=SystemInfo.objects.count()
-	users=SystemInfo.objects.count()
-	winupdate=SystemInfo.objects.filter(windowsuptodate='updated').count()
-	swupdate=SystemInfo.objects.filter(	softwareupdatetodate='up to date').count()
-	hdd=SystemInfo.objects.filter(hardisk='normal').count()
-	jabra=SystemInfo.objects.filter(jabradirect='up to date').count()
-	winactive=SystemInfo.objects.filter(windowsactivation='activated').count()
+	organizationobj=OrgInsertion.objects.all()
+
+	sysorgname=request.user.username
+	org=OrgInsertion.objects.get(organizationname=sysorgname)
+	orgid=org.id
+	systotal=SystemUpdateModel.objects.filter(orgname=orgid).count()
+	syshealth=SystemUpdateModel.objects.filter(orgname=orgid,healthstatus="Healthy").count()
 	
+	systemmodel=SystemUpdateModel.objects.filter(orgname=orgid).count()
 
-	evnoerror=SystemInfo.objects.filter(eventviewer='no error').count()
-	evtot=SystemInfo.objects.count()
-	evres=evtot-evnoerror
-
-	outlook=SystemInfo.objects.count()	
-	context={'users':users,'winupdate':winupdate,'total':total,'swupdate':swupdate,'hdd':hdd,'jabra':jabra,'winactive':winactive,'evres':evres,'outlook':outlook}
+	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
+	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal}
 	return render(request,'dashboard/systemhealth.html',context)	
 	
 		
@@ -90,3 +88,59 @@ def systeminfo(request):
 
 def index1(request):
 	return render(request,'dashboard/index.html')
+
+
+def systemrequirement(request):
+	return render(request,'dashboard/systemrequirement.html')
+
+class SystemRequirementInsert(View):
+	def get(self,request):
+
+		name=request.GET.get('reqpname',None)
+		reqpname1=OrgInsertion.objects.get(organizationname=name)
+		pname1=request.GET.get('pname',None)
+		hddtype1=request.GET.get('hddtype',None)
+		disksize1=request.GET.get('disksize',None)
+		ndisk1=request.GET.get('ndisk',None)
+		cpucore1=request.GET.get('cpucore',None)
+		ramsize1=request.GET.get('ramsize',None)
+		nmonitors1=request.GET.get('nmonitors',None)
+		
+		
+
+		
+		obj=SystemRequirementModel.objects.create(
+
+			
+			reqpname=reqpname1,
+			pname=pname1,
+			hddtype=hddtype1,
+			disksize=disksize1,
+			ndisk=ndisk1,
+			cpucore=cpucore1,
+			ramsize=ramsize1,
+			nmonitors=nmonitors1,
+			
+
+			)
+		print(obj)
+		userss={'id':obj.id,
+					
+					'reqpname':reqpname,
+					'pname':pname,
+					'hddtype':hddtype,
+					'disksize':disksize,
+					'ndisk':ndisk,
+					'cpucore':cpucore,
+					'ramsize':ramsize,
+					'nmonitors':nmonitors,
+					
+					
+				}
+
+		data={'userss':userss}
+
+		return JsonResponse(data)
+
+
+

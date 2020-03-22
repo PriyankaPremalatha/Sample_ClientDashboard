@@ -1,3 +1,4 @@
+import csv,io
 from django.shortcuts import render,redirect
 from .forms import RegisterForm,OnsiteForm
 from django.contrib.auth.forms import UserCreationForm
@@ -78,6 +79,7 @@ def supportindex(request):
 	
 	organizationobj=OrgInsertion.objects.all()
 	context={'organizationobj':organizationobj}
+
 	return render(request,'dashboard/supportindex.html',context=context)
 
 
@@ -118,8 +120,11 @@ class OrgnameInsertion(View):
 class SystemInfoInsert(View):
 	def get(self,request):
 
-		orgname1=request.GET.get('orgname',None)
+		name=request.GET.get('orgname',None)
+		orgname1=OrgInsertion.objects.get(organizationname=name)
+
 		sysname1=request.GET.get('sysname',None)
+		department1=request.GET.get('department',None)
 		hddspace1=request.GET.get('hddspace',None)
 		ramsize1=request.GET.get('ramsize',None)
 		winstatus1=request.GET.get('winstatus',None)
@@ -129,12 +134,13 @@ class SystemInfoInsert(View):
 		issues1=request.GET.get('issues',None)
 		ongoingissues1=request.GET.get('ongoingissues',None)
 
-		
+		print(department1)
 		obj=SystemUpdateModel.objects.create(
 
 			
 			orgname=orgname1,
 			sysname=sysname1,
+			department=department1,
 			hddspace=hddspace1,
 			ramsize=ramsize1,
 			winstatus=winstatus1,
@@ -150,6 +156,7 @@ class SystemInfoInsert(View):
 					
 					'orgname':orgname,
 					'sysname':sysname,
+					'department':department,
 					'hddspace':hddspace,
 					'ramsize':ramsize,
 					'winstatus':winstatus,
@@ -165,3 +172,87 @@ class SystemInfoInsert(View):
 
 		return JsonResponse(data)
 
+def systemfile_upload(request):
+	template="dashboard/supportindex.html"
+	prompt={
+
+		'order':'order of csv should be first_name,last_name,email,ip_address,message'
+
+	}
+	if request.method=="GET":
+		return render(request,template,prompt)
+
+	csv_file=request.FILES['file']
+
+	if not csv_file.name.endswith('.csv'):
+		messages.error(request,'this is not an CSV file')	
+
+	data_set=csv_file.read().decode('UTF-8')
+	io_string=io.StringIO(data_set)
+	next(io_string) 
+	for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+		sysname=column[0]
+		systemorg=OrgInsertion.objects.get(organizationname=sysname)
+		print(systemorg)
+		_, created=SystemUpdateModel.objects.update_or_create(
+					orgname=systemorg,
+					sysname=column[1],
+					department=column[2],
+					hddspace=column[3],
+					ramsize=column[4],
+					winstatus=column[5],
+					softwares=column[6],
+					healthstatus=column[7],
+					powerstatus=column[8],
+					issues=column[9],
+					ongoingissues=column[10],
+				)
+			
+
+	context={}
+	return render(request,template,context)
+
+		
+def onsitefile_upload(request):
+	template="dashboard/supportindex.html"
+	prompt={
+
+		'order':'order of csv should be first_name,last_name,email,ip_address,message'
+
+	}
+	if request.method=="GET":
+		return render(request,template,prompt)
+
+	csv_file=request.FILES['file']
+
+	if not csv_file.name.endswith('.csv'):
+		messages.error(request,'this is not an CSV file')	
+
+	data_set=csv_file.read().decode('UTF-8')
+	io_string=io.StringIO(data_set)
+	next(io_string) 
+	for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+		
+		
+		_, created=OnsiteModel.objects.update_or_create(
+					organization=column[0],
+					sname=column[1],
+					cperson=column[2],
+					purpose=column[3],
+					appby=column[4],
+					workdate=column[5],
+					worktimein=column[6],
+					worktimeout=column[7],
+					workdone=column[8],
+					description=column[9],
+					proname=column[10],
+					serialno=column[11],
+					proappby=column[12],
+
+				)
+			
+
+	context={}
+	return render(request,template,context)
+		
+		

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	 <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <!-- MDB icon -->
+  <!-- <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon"> -->
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- Material form login -->
+<div class="container">
+<!-- Card -->
+<div class="row">
+<div class="col-sm-4"></div>
+<div class="col-sm-4">
+<div class="card" style="width: 400px; margin-top: 50px;">
+<p class="card-header info-color white-text text-center py-4">New System Requirements</p>
+  <!-- Card body -->
+  <div class="card-body">
+
+    <!-- Material form register -->
+    <form method="POST" action="" autocomplete="off">
+      
+
+      <!-- Material input text -->
+      <div class="md-form" style="margin-top: 0px;">
+        
+        <input type="text"  name="pname" class="form-control">
+        <label for="materialFormCardNameEx" class="font-weight-light">Enter person name who need system </label>
+      </div>
+
+      <div class="row">
+       <div class="md-form col-md-6" style="margin-top: 0px;">
+
+       <div class="input-group  ">
+
+		  <select class="custom-select" id="hddselect" name="disktype">
+		   	<option selected>Choose disk type</option>
+		    <option value="Standard HDD"> Standard HDD</option>
+		    <option value="Standard HDD">Standard SSD</option>
+		   
+		  </select>
+  
+		</div>
+      </div>
+
+      <div class="md-form col-md-6" style="margin-top: 0px;">
+       <div class="input-group ">
+		  <select class="custom-select" id="diskselect" name="disksize">
+		   <option selected>Choose disk size</option>
+		    <option value="32 GB">32 GB</option>
+		    <option value="64 GB">64 GB</option>
+		    <option value="128 GB">128 GB</option>
+		    <option value="256 GB">256 GB</option>
+		    <option value="512 GB">512 GB</option>
+		    <option value="1024 GB">1024 GB</option>
+		    <option value="2048 GB">2048 GB</option>
+		    <option value="4096 GB">4096 GB</option>
+		    <option value="8192 GB">8192 GB</option>
+		    <option value="16384 GB">16384 GB</option>
+		    <option value="32767 GB">32767 GB</option>
+
+
+
+		  </select>
+  
+		</div>
+      </div>
+     </div>
+      
+      <div class="md-form" style="margin-top: 0px;">
+        
+        <input type="number" name="ndisk" class="form-control">
+        <label for="materialFormCardConfirmEx" class="font-weight-light">No. of Disk</label>
+      </div>
+
+      
+      <div class="md-form">
+       <div class="input-group ">
+		  <select class="custom-select" id="Coreselect" name="cpucore">
+		    <option selected>Choose CPU Core</option>
+		    <option value="1 Core">1 Core</option>
+		    <option value="2 Cores">2 Cores</option>
+		    <option value="4 Cores">4 Cores</option>
+		    <option value="6 Cores">6 Cores</option>
+		    <option value="8 Cores">8 Cores</option>
+		    <option value="16 Cores">16 Cores</option>
+		  </select>
+  
+		</div>
+      </div>
+
+      <div class="md-form">
+       <div class="input-group mb-6">
+		  <select class="custom-select" id="ramselect" name="ramsize">
+		  	<option selected>Choose RAM size</option>
+		   <option value="32 GB">0.75 GB</option>
+		   <option value="32 GB">1 GB</option>
+		   <option value="32 GB">2 GB</option>
+		   <option value="32 GB">4 GB</option> 
+		   <option value="32 GB">8 GB</option> 
+		   <option value="32 GB">16 GB</option> 
+		   <option value="32 GB">32 GB</option>
+		    <option value="64 GB">64 GB</option>
+		    <option value="128 GB">128 GB</option>
+		    <option value="256 GB">256 GB</option>
+		    <option value="512 GB">512 GB</option>
+		    <option value="1024 GB">1024 GB</option>
+		    <option value="2048 GB">2048 GB</option>
+		    <option value="4096 GB">4096 GB</option>
+		    <option value="8192 GB">8192 GB</option>
+		    <option value="16384 GB">16384 GB</option>
+		    <option value="32767 GB">32767 GB</option>
+
+
+		  </select>
+  
+		</div>
+      </div>
+
+       <div class="md-form" style="margin-top: 0px;">
+        
+        <input type="number" name="nmonitors" class="form-control">
+        <label for="materialFormCardConfirmEx" class="font-weight-light">No. of Monitors</label>
+      </div>
+
+      <div class="text-center py-4 mt-3">
+        <button class="btn btn-cyan" type="submit" name="submit">Send</button>
+      </div>
+    </form>
+    
+
+  </div>
+  <!-- Card body -->
+
+</div>
+</div>
+</div>
+<!-- Card -->
+</div>
+
+ <!-- jQuery -->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="js/popper.min.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="js/mdb.min.js"></script>
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript"></script>
+
+</body>
+</html>
