@@ -56,6 +56,10 @@
                             <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
                                 New System Requirement</a>
+
+                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Import File</a>
                             <!-- <a class="nav-link" href="{% url 'systemhealth' %}"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
                                 Event Viewer</a>
@@ -252,6 +256,39 @@
       </div>
     </div>
 
+<!-- Import File -->
+             
+    <div class="modal fade" id="importfileModal" tabindex="-1" role="dialog" aria-labelledby="importfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="importfileModalLabel">Choose File to Import</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              
+
+              <div>
+              {{order}}
+              <form method="post" enctype="multipart/form-data"  action="requirementfile_upload/">
+              {% csrf_token %}
+              <div style="margin-top: 30px;px;" align="center">
+              <label style="font-family: Palatino Linotype;">Upload a System Requirement file</label><br>
+                <input type="file" name="file" class="form-control">
+                <p>Only acepts CSV files</p>
+                <button class="btn btn-info" type="submit">Upload File</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
 <!-- systemrequirement model -->
     <div class="modal fade" id="systemreqModal" tabindex="-1" role="dialog" aria-labelledby="systemreqModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -398,37 +435,6 @@
 
 <script>
 
-    var config={
-
-            type:'pie',
-            data:{
-
-
-                datasets:[{
-
-                    data:{{data|safe}},
-                    backgroundColor:[
-
-                          'red', 'green'],
-                    
-                    label:'Health Status'
-
-                }],
-                
-                labels:{{labels|safe}}
-                },
-
-            options:
-            {
-                responsive:true
-            }
-
-        };
-
-     window.onload = function() {
-      var ctx = document.getElementById('pie-chart').getContext('2d');
-      window.myPie = new Chart(ctx, config);
-    };
 
 
     $("#addsystemreq").submit(function(){

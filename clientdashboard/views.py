@@ -1,12 +1,13 @@
+import csv,io
 from django.shortcuts import render,redirect
 from .forms import RegisterForm,SystemInfoForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
-from .models import SystemInfo,SystemRequirementModel
+from clientdashboard.models import SystemInfo,SystemRequirementModel
 from django.views.generic import ListView
-from supportteamapp.models import SystemUpdateModel
+
 from django.http import JsonResponse
 from supportteamapp.models import OrgInsertion,SystemUpdateModel
 from django.views.generic import View
@@ -144,3 +145,41 @@ class SystemRequirementInsert(View):
 
 
 
+
+def requirementfile_upload(request):
+	template="dashboard/systemhealth.html"
+	prompt={
+
+		'order':'order of csv should be first_name,last_name,email,ip_address,message'
+
+	}
+	if request.method=="GET":
+		return render(request,template,prompt)
+
+	csv_file=request.FILES['file']
+
+	if not csv_file.name.endswith('.csv'):
+		messages.error(request,'this is not an CSV file')	
+
+	data_set=csv_file.read().decode('UTF-8')
+	io_string=io.StringIO(data_set)
+	next(io_string) 
+	for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+		sysname=column[0]
+		systemorg=OrgInsertion.objects.get(organizationname=sysname)
+		print(systemorg)
+		_, created=SystemRequirementModel.objects.update_or_create(
+					reqpname=systemorg,
+					pname=column[1],
+					hddtype=column[2],
+					disksize=column[3],
+					ndisk=column[4],
+					cpucore=column[5],
+					ramsize=column[6],
+					nmonitors=column[7],
+					
+				)
+			
+
+	context={}
+	return render(request,template,context)

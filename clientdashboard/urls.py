@@ -11,6 +11,7 @@ urlpatterns=[
 	path("systemrequirement/",views.systemrequirement,name="systemrequirement"),
 	path("systemhealth/",views.systemhealth,name="systemhealth"),
 	path("systeminfo/",views.systeminfo,name="systeminfo"),
+	path("systemhealth/requirementfile_upload/",views.requirementfile_upload,name="requirementfile_upload"),
 	path('systemreqinsert/',views.SystemRequirementInsert.as_view(), name='systemreqinsert'),
 	path('reset-password', PasswordResetView.as_view(), name='password_reset'),
 	path('reset-password/done', PasswordResetDoneView.as_view(), name='password_reset_done'),
