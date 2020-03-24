@@ -164,16 +164,17 @@
                             
                         </div>
                         <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-area mr-1"></i>Area Chart Example</div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
+                            
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Bar Chart Example</div>
                                     <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                             <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Pie Chart Example</div>
+                                    <div class="card-body"><canvas id="myPieChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
@@ -236,6 +237,8 @@
                         </div>
                     </div>
                 </footer>
+               
+
                 <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -428,6 +431,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'demo/chart-bar-demo.js' %}"></script>
+        <script src="{% static 'demo/chart-pie-demo.js' %}"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'demo/datatables-demo.js' %}"></script>
@@ -435,7 +439,7 @@
 
 <script>
 
-
+  
 
     $("#addsystemreq").submit(function(){
 
@@ -509,6 +513,8 @@
       $('#systemreqModal').modal('hide');
       return false;
     });
+
+
 </script>
 {% endblock javascript %}
                

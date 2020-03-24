@@ -65,6 +65,8 @@ def systemhealth(request):
 	systemmodel=SystemUpdateModel.objects.filter(orgname=orgid).count()
 
 	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
+
+
 	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal}
 	return render(request,'dashboard/systemhealth.html',context)	
 	
@@ -148,13 +150,12 @@ class SystemRequirementInsert(View):
 
 def requirementfile_upload(request):
 	template="dashboard/systemhealth.html"
-	prompt={
+	order='order of csv should be Required Person Name'
+	context={'order':order}
 
-		'order':'order of csv should be first_name,last_name,email,ip_address,message'
-
-	}
+		
 	if request.method=="GET":
-		return render(request,template,prompt)
+		return render(request,template,context)
 
 	csv_file=request.FILES['file']
 
@@ -183,3 +184,5 @@ def requirementfile_upload(request):
 
 	context={}
 	return render(request,template,context)
+
+

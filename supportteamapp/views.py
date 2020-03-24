@@ -40,8 +40,7 @@ def slogin(request):
 		return render(request,"sregisterlogin/slogin.html")
 
 
-# @login_required(login_url='slogin')
-	# @staff_member_required(login_url='slogin')
+
 def sindex(request):
 	return render(request,"sregisterlogin/sindex.html")
 
@@ -74,10 +73,13 @@ def onsite(request):
 	return render(request,"dashboard/onsite.html",{"form":form})
 
 
+@staff_member_required(login_url='slogin')
 @login_required(login_url='slogin')		
 def supportindex(request):
 	
 	organizationobj=OrgInsertion.objects.all()
+
+	
 	context={'organizationobj':organizationobj}
 
 	return render(request,'dashboard/supportindex.html',context=context)

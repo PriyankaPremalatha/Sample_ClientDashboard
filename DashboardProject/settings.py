@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'clientdashboard',
     "crispy_forms",
     'supportteamapp',
+    'django_matplotlib',
 ]
 
 MIDDLEWARE = [
