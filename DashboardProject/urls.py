@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from clientdashboard import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path("clientdashboard/",include("clientdashboard.urls")),
     path("supportteamapp/",include("supportteamapp.urls")),
+    path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
 ]

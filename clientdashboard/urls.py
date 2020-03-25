@@ -19,4 +19,8 @@ urlpatterns=[
 	path('reset-password/confirm/<uidb64>[0-9A-Za-z]+)-<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 	path('reset-password/complete/',PasswordResetCompleteView.as_view(),name='password_reset_complete'),
 
+	# path('home_view/',views.HomeView.as_view(),name='home_view'),
+	path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
+	
+
 ]

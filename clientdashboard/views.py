@@ -12,6 +12,8 @@ from django.http import JsonResponse
 from supportteamapp.models import OrgInsertion,SystemUpdateModel
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -65,6 +67,7 @@ def systemhealth(request):
 	systemmodel=SystemUpdateModel.objects.filter(orgname=orgid).count()
 
 	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
+
 
 
 	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal}
@@ -184,5 +187,31 @@ def requirementfile_upload(request):
 
 	context={}
 	return render(request,template,context)
+
+
+        
+
+        
+
+class ChartData(APIView):
+   
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+    	
+    	# sysorgname1=request.user.username
+    	# org1=OrgInsertion.objects.get(organizationname=sysorgname1)
+    	# orgid1=org1.id
+    	syshealth1=SystemUpdateModel.objects.filter(healthstatus="Healthy").count()
+    	syshealth2=SystemUpdateModel.objects.filter(healthstatus="Need Attention").count()
+    	syshealth3=SystemUpdateModel.objects.filter(healthstatus="Urgent Need Attention").count()
+    	syshealth4=SystemUpdateModel.objects.filter(healthstatus="No Maintenance").count()
+	    	
+    	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
+    	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
+    	data={"labels":labels, "default":default_items}
+    	return Response(data)
+        
 
 

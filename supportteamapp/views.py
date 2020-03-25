@@ -256,5 +256,15 @@ def onsitefile_upload(request):
 
 	context={}
 	return render(request,template,context)
-		
-		
+
+
+
+class OrgView(ListView):
+
+	
+	def get(self, request, *args, **kwargs):
+			
+			
+			orgview=SystemUpdateModel.objects.all()
+			context={'orgview':orgview}
+			return render(request, "dashboard/supportindex.html", context=context)

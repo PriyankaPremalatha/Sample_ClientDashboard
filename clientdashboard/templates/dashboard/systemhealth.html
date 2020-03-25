@@ -228,16 +228,23 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2019</div>
+                            <div class="text-muted"></div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a href="#"></a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a href="#"></a>
                             </div>
                         </div>
                     </div>
                 </footer>
                
+    <div class="row" align="center" style="margin: 30px;">
+  <div class="col-am-12"  >
+    <h1>Hello World</h1>  
+    <canvas id="myChart" width="400" height="400"></canvas>
+  </div>
+
+</div>
 
                 <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -438,7 +445,7 @@
 {% block javascript %}
 
 <script>
-
+{% block jquery %}
   
 
     $("#addsystemreq").submit(function(){
@@ -514,7 +521,62 @@
       return false;
     });
 
+/*chart*/
+var endpoint='/api/chart/data/'
+var defaultdata=[]
+var labels= [];
+$.ajax({
 
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels=data.labels
+    defaultdata=data.default
+    setchart()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+function setchart(){
+var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels:labels,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultdata,
+                 backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 100, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}
+
+{% endblock jquery %}
 </script>
 {% endblock javascript %}
                
