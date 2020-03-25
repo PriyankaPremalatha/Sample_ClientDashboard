@@ -618,8 +618,8 @@
               </thead>
               
               <tbody>
-                {% if models_to_return %}
-                {% for orgviews in model_to_return %}
+                {% if orgview1 %}
+                {% for orgviews in orgview1 %}
                 <tr>
                   <td>{{orgviews.id}}</td>
                   <td>{{orgviews.orgname}}</td>
@@ -888,6 +888,7 @@
           </div>
           <div class="modal-body" align="center">
              <form action="" id="editsystem">
+              {% csrf_token %}
               {% if organizationobj %}
               {% for organizationobjs in organizationobj %}
               <input type="button" id="{{organizationobjs.organizationname}}" name="org" class="myclassname" value="{{organizationobjs.organizationname}}">
@@ -1307,9 +1308,10 @@ $(document).ready(function(){
               url:'{% url "tableview" %}',
               data:{id},
               dataType:'json',
-              success:function(models_to_return)
+              success:function(data)
               {
-                console.log(models_to_return)
+                   $("#dataTable tbody").html(data.html_org_list); 
+                   console.log(data.html_org_list);
                 
               }
               

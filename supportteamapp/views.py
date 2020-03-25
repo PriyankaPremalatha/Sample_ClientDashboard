@@ -262,18 +262,21 @@ def onsitefile_upload(request):
 
 class OrgView(ListView):	
 	def get(self, request):
-		# data=dict()
+		data=dict()
 		orgname1=request.GET.get("id",None)
 		# orgname1='Click-Logistics'
 		org1=OrgInsertion.objects.get(organizationname=orgname1)
 		orgid1=org1.id
-		orgview1=SystemUpdateModel.objects.filter(orgname=orgid1).values()
+		orgview1=SystemUpdateModel.objects.filter(orgname=orgid1).all()
 		print("**************************************************************")
 		print(orgname1)
+		data['html_org_list'] = render_to_string('dashboard/supportindex.html', {'orgview1':orgview1},request=request)
+                
+		return JsonResponse(data)
 		# print(orgid1)
 		# context={'orgview1':orgview1}
 		# data['html_table']= render_to_string('dashboard/supportindex.html',context,request=request)
-		return JsonResponse({"contet":list(orgview1)})
+		# return JsonResponse({"models_to_return":list(orgview1)})
 		# return render(request,'dashboard/supportindex.html',context)
 			
 			
