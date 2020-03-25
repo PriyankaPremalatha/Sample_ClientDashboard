@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
+from django.template.loader import render_to_string, get_template
 # Create your views here.
 def sregister(request):
 	if request.method=="POST":
@@ -259,16 +260,21 @@ def onsitefile_upload(request):
 
 
 
-class OrgView(View):
-
-	
-	def get(self, request, *args, **kwargs):
+class OrgView(ListView):	
+	def get(self, request):
+		# data=dict()
 		orgname1=request.GET.get("id",None)
-		orgview=SystemUpdateModel.objects.filter(orgname=orgname1).all()
+		# orgname1='Click-Logistics'
+		org1=OrgInsertion.objects.get(organizationname=orgname1)
+		orgid1=org1.id
+		orgview1=SystemUpdateModel.objects.filter(orgname=orgid1).values()
 		print("**************************************************************")
 		print(orgname1)
-		context={'orgview':orgview}
-		return render(request, "dashboard/supportindex.html", context=context)
+		# print(orgid1)
+		# context={'orgview1':orgview1}
+		# data['html_table']= render_to_string('dashboard/supportindex.html',context,request=request)
+		return JsonResponse({"contet":list(orgview1)})
+		# return render(request,'dashboard/supportindex.html',context)
 			
 			
 

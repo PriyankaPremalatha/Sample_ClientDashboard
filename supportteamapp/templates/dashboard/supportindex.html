@@ -66,7 +66,7 @@
              <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#systeminfoModal" data-toggle="modal" data-target="#systeminfoModal">Add System</a></li>
 
-              <li><a  class="dropdown-item test" href="{% url 'orgtableview' %}">View System</a></li>
+              <li><a  class="dropdown-item test" href="{% url 'tableview' %}">View System</a></li>
 
               <li><a class="dropdown-item" href="#editsysinfoModal" data-toggle="modal" data-target="#editsysinfoModal">Add System</a></li>
             </ul>
@@ -618,8 +618,8 @@
               </thead>
               
               <tbody>
-                {% if orgview %}
-                {% for orgviews in orgview %}
+                {% if models_to_return %}
+                {% for orgviews in model_to_return %}
                 <tr>
                   <td>{{orgviews.id}}</td>
                   <td>{{orgviews.orgname}}</td>
@@ -1303,13 +1303,13 @@ $(document).ready(function(){
       alert(id)
     
       $.ajax({
-
-              url:'{% url "orgtableview" %}',
-              data:{'id':id},
+              
+              url:'{% url "tableview" %}',
+              data:{id},
               dataType:'json',
-              success:function()
+              success:function(models_to_return)
               {
-                alert("done")
+                console.log(models_to_return)
                 
               }
               
