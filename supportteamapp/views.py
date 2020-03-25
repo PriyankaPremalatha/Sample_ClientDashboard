@@ -259,12 +259,18 @@ def onsitefile_upload(request):
 
 
 
-class OrgView(ListView):
+class OrgView(View):
 
 	
 	def get(self, request, *args, **kwargs):
+		orgname1=request.GET.get("id",None)
+		orgview=SystemUpdateModel.objects.filter(orgname=orgname1).all()
+		print("**************************************************************")
+		print(orgname1)
+		context={'orgview':orgview}
+		return render(request, "dashboard/supportindex.html", context=context)
 			
 			
-			orgview=SystemUpdateModel.objects.all()
-			context={'orgview':orgview}
-			return render(request, "dashboard/supportindex.html", context=context)
+
+						
+			

@@ -66,7 +66,7 @@
              <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#systeminfoModal" data-toggle="modal" data-target="#systeminfoModal">Add System</a></li>
 
-              <li><a  class="dropdown-item" href="{% url 'orgtableview' %}">View System</a></li>
+              <li><a  class="dropdown-item test" href="{% url 'orgtableview' %}">View System</a></li>
 
             </ul>
            
@@ -594,12 +594,13 @@
         </div>
       </div>
       <!-- Example DataTables Card-->
-      <div class="card mb-3">
+      <div class="card mb-3" style="display: none;" id="showme">
         <div class="card-header">
           <i class="fa fa-table"></i> Data Table Example</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" >
+
               <thead>
                 <tr>
                   <th>ID</th>
@@ -1287,7 +1288,14 @@
         });
 
 
+$(document).ready(function(){
+    $(".test").click(function(){
+        $("#showme").show();
+       
 
+    });
+
+});
 
             ;(function(ns) { // ns - namesapce into which tagify function should be set (in our case it is window)
   "use strict";

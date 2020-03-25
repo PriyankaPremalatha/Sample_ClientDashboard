@@ -66,8 +66,9 @@
              <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="#systeminfoModal" data-toggle="modal" data-target="#systeminfoModal">Add System</a></li>
 
-              <li><a  class="dropdown-item" href="{% url 'orgtableview' %}">View System</a></li>
+              <li><a  class="dropdown-item test" href="{% url 'orgtableview' %}">View System</a></li>
 
+              <li><a class="dropdown-item" href="#editsysinfoModal" data-toggle="modal" data-target="#editsysinfoModal">Add System</a></li>
             </ul>
            
         </li>
@@ -594,7 +595,7 @@
         </div>
       </div>
       <!-- Example DataTables Card-->
-      <div class="card mb-3">
+      <div class="card mb-3" id="showme">
         <div class="card-header">
           <i class="fa fa-table"></i> Data Table Example</div>
         <div class="card-body">
@@ -886,7 +887,14 @@
             </button>
           </div>
           <div class="modal-body" align="center">
-             
+             <form action="" id="editsystem">
+              {% if organizationobj %}
+              {% for organizationobjs in organizationobj %}
+              <input type="button" id="{{organizationobjs.organizationname}}" name="org" class="myclassname" value="{{organizationobjs.organizationname}}">
+               {% endfor %}
+               {% endif %}
+
+             </form>
           </div>
           
         </div>
@@ -1287,6 +1295,39 @@
         });
 
 
+$(document).ready(function(){
+  $('.myclassname').each(function(){
+    $(this).click(function(){
+
+      var id=$(this).attr('id');
+      alert(id)
+    
+      $.ajax({
+
+              url:'{% url "orgtableview" %}',
+              data:{'id':id},
+              dataType:'json',
+              success:function()
+              {
+                alert("done")
+                
+              }
+              
+
+
+      });
+    
+
+      $('#editsysinfoModal').modal('hide');
+      return false;
+
+
+    });
+
+
+  });
+
+});
 
 
             ;(function(ns) { // ns - namesapce into which tagify function should be set (in our case it is window)
