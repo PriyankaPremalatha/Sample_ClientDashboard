@@ -14,4 +14,5 @@ urlpatterns=[
 	path("orgnameinsertion/",views.OrgnameInsertion.as_view(),name="orgnameinsertion"),
 	path("systeminfoinsert/",views.SystemInfoInsert.as_view(),name="systeminfoinsert"),
 	path("orgtableview/",views.OrgView.as_view(),name="tableview"),
+	path("systemupdate/",views.UpdateSystem.as_view(),name="systemupdates"),
 ]

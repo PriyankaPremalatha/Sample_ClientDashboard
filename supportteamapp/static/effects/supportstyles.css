@@ -666,22 +666,23 @@ margin-top:-35px; /* aligns top of sub menu with top of list item */
 }
 
 
-#datatable {
+#tab {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
 
-#datatable td, #datatable th {
+#tab td, #tab th {
   border: 1px solid #ddd;
   padding: 8px;
+  width: auto;
 }
 
-#datatable tr:nth-child(even){background-color: #f2f2f2;}
+#tab tr:nth-child(even){background-color: #f2f2f2;}
 
-#datatable tr:hover {background-color: #ddd;}
+#tab tr:hover {background-color: #ddd;}
 
-#datatable th {
+#tab th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -691,6 +692,13 @@ margin-top:-35px; /* aligns top of sub menu with top of list item */
 
 .table td.fit, 
 .table th.fit {
-    white-space: nowrap;
+    
     width: 1%;
+
+}
+#tab td{
+   white-space: nowrap;
+}
+#tab th{
+   white-space: nowrap;
 }

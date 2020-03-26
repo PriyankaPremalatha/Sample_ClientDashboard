@@ -4,6 +4,7 @@ from .forms import RegisterForm,OnsiteForm
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView
 from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.generic import View
 from supportteamapp.models import OnsiteModel,OrgInsertion,SystemUpdateModel
 from django.contrib.auth import login,authenticate,logout
@@ -261,7 +262,7 @@ def onsitefile_upload(request):
 
 
 class OrgView(ListView):	
-	def get(self, request):
+	def get(self, request, *args,**kwargs):
 		data=dict()
 		orgname1=request.GET.get("id",None)
 		# orgname1='Click-Logistics'
@@ -270,7 +271,8 @@ class OrgView(ListView):
 		orgview1=SystemUpdateModel.objects.filter(orgname=orgid1).all()
 		print("**************************************************************")
 		print(orgname1)
-		data['html_org_list'] = render_to_string('dashboard/supportindex.html', {'orgview1':orgview1},request=request)
+		context={'orgview1':orgview1}
+		data['html_org_list'] = render_to_string('dashboard/sample.html',context)
                 
 		return JsonResponse(data)
 		# print(orgid1)
@@ -283,3 +285,54 @@ class OrgView(ListView):
 
 						
 			
+class UpdateSystem(View):
+	def get(self, request):
+
+		id1=request.GET.get('id',None)
+		sysname1=request.GET.get('sysname',None)
+		department1=request.GET.get('department',None)
+		hddspace1=request.GET.get('hddspace',None)
+		ramsize1=request.GET.get('ramsize',None)
+		winstatus1=request.GET.get('winstatus',None)
+		softwares1=request.GET.get('softwares',None)
+		healthstatus1=request.GET.get('healthstatus',None)
+		powerstatus1=request.GET.get('powerstatus',None)
+		issues1=request.GET.get('issues',None)
+		ongoingissues1=request.GET.get('ongoingissues',None)
+		print("*************************************")
+		print(department1)
+		obj=SystemUpdateModel.objects.get(id=id1)
+		
+		obj.sysname=sysname1
+		obj.department=department1
+		obj.hddspace=hddspace1
+		obj.ramsize=ramsize1
+		obj.winstatus=winstatus1
+		obj.softwares=softwares1
+		obj.healthstatus=healthstatus1
+		obj.powerstatus=powerstatus1
+		obj.issues=issues1
+		obj.ongoingissues=ongoingissues1
+		obj.save()	
+			
+		
+		
+		orgviews={'id':obj.id,
+					
+					
+					'sysname':obj.sysname,
+					'department':obj.department,
+					'hddspace':obj.hddspace,
+					'ramsize':obj.ramsize,
+					'winstatus':obj.winstatus,
+					'softwares':obj.softwares,
+					'healthstatus':obj.healthstatus,
+					'powerstatus':obj.powerstatus,
+					'issues':obj.issues,
+					'ongoingissues':obj.ongoingissues,
+					
+				}
+
+		data={'orgviews':orgviews}
+
+		return JsonResponse(data)

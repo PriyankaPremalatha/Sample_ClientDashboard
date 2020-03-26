@@ -1,0 +1,21 @@
+                {% if orgview1 %}
+                {% for orgviews in orgview1 %}
+                <tr id="orgviews-{{orgviews.id}}">
+                  
+                  <td >{{orgviews.orgname}}</td>
+                  <td class="sysName userData"  name="sysname">{{orgviews.sysname}}</td>
+                  <td class="sysDepartment userData"  name="department">{{orgviews.department}}</td>
+                  <td class="sysHddspace userData"  name="hddspace">{{orgviews.hddspace}}</td>
+                  <td class="sysRamsize userData"  name="ramsize">{{orgviews.ramsize}}</td>
+                  <td class="sysWinstatus userData"  name="winstatus">{{orgviews.winstatus}}</td>
+                  <td class="sysSoftwares userData"  name="softwares">{{orgviews.softwares}}</td>
+                  <td class="sysHealthstatus userData"  name="healthstatus">{{orgviews.healthstatus}}</td>
+                  <td class="sysPowerstatus userData"  name="powerstatus">{{orgviews.powerstatus}}</td>
+                  <td class="sysIssues userData"  name="issues">{{orgviews.issues}}</td>
+                  <td class="sysOngoingissues userData"  name="ongoingissues">{{orgviews.ongoingissues}}</td>
+                  <td align="center">
+                  <button class="btn btn-info form-control" onClick="editSystem({{orgviews.id}})" data-toggle="modal" data-target="#updateModal">EDIT</button>
+              </td>
+                </tr>
+                {% endfor %}
+                {% endif %}

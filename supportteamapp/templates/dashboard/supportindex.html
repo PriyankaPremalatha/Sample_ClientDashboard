@@ -595,53 +595,43 @@
         </div>
       </div>
       <!-- Example DataTables Card-->
-      <div class="card mb-3" id="showme">
+      <div class="card mb-3" >
         <div class="card-header">
           <i class="fa fa-table"></i> Data Table Example</div>
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
+          <div class="table-responsive" >
+            <div id="showme">
+            <table class="table table-bordered" id="tab" width="100%" cellspacing="0" >
+
+               <thead>
                 <tr>
-               <th>ID</th>
+                  
                   <th>Organization</th>
                   <th>System Name</th>
                   <th>Department</th>
                   <th>HDD Space</th>
                   <th>RAM Size</th>
                   <th>Windows</th>
+                  <th>softwares</th>
                   <th>Health Status</th>
                   <th>Power Status</th>
                   <th>Issues</th>
                   <th>Ongoing Issues</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               
               <tbody>
-                {% if orgview1 %}
-                {% for orgviews in orgview1 %}
-                <tr>
-                  <td>{{orgviews.id}}</td>
-                  <td>{{orgviews.orgname}}</td>
-                  <td>{{orgviews.sysname}}</td>
-                  <td>{{orgviews.department}}</td>
-                  <td>{{orgviews.hddspace}}</td>
-                  <td>{{orgviews.ramsize}}</td>
-                  <td>{{orgviews.winstatus}}</td>
-                  <td>{{orgviews.healthstatus}}</td>
-                  <td>{{orgviews.powerstatus}}</td>
-                  <td>{{orgviews.issues}}</td>
-                  <td>{{orgviews.ongoingissues}}</td>
-                </tr>
-                {% endfor %}
-                {% endif %}
+                    
               </tbody>
             </table>
+            </div>
           </div>
         </div>
         
       </div>
     </div>
+    
     
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
@@ -902,6 +892,137 @@
       </div>
     </div>
 
+<!-- Modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="updateModalLabel">Update System Information</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          
+        </div>
+        <form id="updateSystem" action="">
+        <div class="modal-body">
+
+
+                        <form  action="" id="addsystem" >
+               
+                <div class="modal-body">
+                  {% csrf_token %}
+                    
+                    <input class="form-control" id="formid" hidden="true"  name="form-Id"/>
+
+                    <div class="form-group">
+                        <input type="text" name="form-sysname" id="formsysname" placeholder="System name" class="form-control">
+
+                    </div>
+
+                    <div class="form-group">
+                     <select class="form-control" id="formdepartment" name="form-department">
+                        <option selected>Choose department</option>
+                        <option value="Department1">Department1</option>
+                        <option value="Depatment2">Depatment2</option>
+                       
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                     <select class="form-control" id="formhddspace" name="form-hddspace">
+                        <option selected>Disk Space</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Critical">Critical</option>
+                       
+                      </select>
+
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="formramsize" name="form-ramsize">
+                            <option selected>Select RAM size</option>
+                       <option value="32 GB">0.75 GB</option>
+                               <option value="32 GB">1 GB</option>
+                               <option value="32 GB">2 GB</option>
+                               <option value="32 GB">4 GB</option> 
+                               <option value="32 GB">8 GB</option> 
+                               <option value="32 GB">16 GB</option> 
+                               <option value="32 GB">32 GB</option>
+                                <option value="64 GB">64 GB</option>
+                                <option value="128 GB">128 GB</option>
+                                <option value="256 GB">256 GB</option>
+                                <option value="512 GB">512 GB</option>
+                                <option value="1024 GB">1024 GB</option>
+                                <option value="2048 GB">2048 GB</option>
+                                <option value="4096 GB">4096 GB</option>
+                                <option value="8192 GB">8192 GB</option>
+                                <option value="16384 GB">16384 GB</option>
+                                <option value="32767 GB">32767 GB</option>
+
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                     <select class="form-control" id="formwinstatus" name="form-winstatus">
+                        <option selected>Windows Update Status</option>
+                        <option value="Updated">Updated</option>
+                        <option value="Not Updated">Not Updated</option>
+                       
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <textarea type="text" name="form-softwares" id="formsoftware" placeholder="Software's" class="form-control"></textarea>
+
+                    </div>
+
+                     
+
+                    </div>
+
+                     <div class="form-group">
+                     <select class="form-control" id="formhealthstatus" name="form-healthstatus">
+                        <option selected>Health Status</option>
+                        <option value="Healthy">Healthy</option>
+                        <option value="Need Attention">Need Attention</option>
+                        <option value="Urgent Need Attention">Urgent Need Attention</option>
+                        <option value="No Maintenance">No Maintenance</option>
+                       
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                     <select  id="formpowerstatus" name="form-powerstatus" class="form-control">
+                        <option selected>Power Status</option>
+                        <option value="Power On">Power On</option>
+                        <option value="Power Off">Power Off</option>
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <textarea type="text" id="formissues" name="form-issues" placeholder="Issues" class="form-control"></textarea>
+
+                    </div>
+
+                    <div class="form-group">
+                        <textarea type="text" id="formongoingissues" name="form-ongoingissues" placeholder="Ongoing Issues"class="form-control"></textarea>
+
+                    </div>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Save</button>
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
        
   
   <!-- Ticket Modal-->
@@ -1065,7 +1186,6 @@
       </div>
     </div>
 
-
   </div>
 
   {% endblock %}
@@ -1210,7 +1330,7 @@
 
        });
 
-//system info update
+//system info add
 
         $("#addsystem").submit(function(){
 
@@ -1296,6 +1416,164 @@
         });
 
 
+//system info update
+
+        $("#updateSystem").submit(function(){
+
+              alert("hi");
+             
+              var sysid=$('input[name="form-Id"]').val().trim();
+              var sysname=$('input[name="form-sysname"]').val().trim();
+              
+              var element=document.getElementById("formdepartment");
+              var department=element.options[element.selectedIndex].value;
+
+              var element=document.getElementById("formhddspace");
+              var diskspace=element.options[element.selectedIndex].value;
+              
+              var element=document.getElementById("formramsize");
+              var ramsize=element.options[element.selectedIndex].value;
+
+              var element=document.getElementById("formwinstatus");
+              var winupdate=element.options[element.selectedIndex].value;
+              
+              var softwares=$('textarea[name="form-softwares"]').val().trim();             
+              
+              var element=document.getElementById("formhealthstatus");
+              var syshealth=element.options[element.selectedIndex].value;
+
+              var element=document.getElementById("formpowerstatus");
+              var powerstatus=element.options[element.selectedIndex].value;
+
+              var issues=$('textarea[name="form-issues"]').val().trim();
+
+              var ongoingissues=$('textarea[name="form-ongoingissues"]').val().trim();
+
+              alert(sysid)
+
+              
+              if(sysname==""  && diskspace=="Disk Space" && ramsize=="Select RAM size" && winupdate=="Windows Update Status" && powerstatus=="Power Status" && syshealth=="Health Status")
+              {
+                alert("Please Enter missing fields");
+                
+              }
+              else
+              {
+                  
+                   $.ajax({
+
+
+                          url:'{% url "systemupdates" %}',
+                          
+                          data:{
+                                  
+                                  'id':sysid,
+                                  'sysname':sysname,
+                                  'department':department,
+                                  'hddspace':diskspace,
+                                  'ramsize':ramsize,
+                                  'winstatus':winupdate,
+                                  'softwares':softwares,
+                                  'healthstatus':syshealth,
+                                  'powerstatus':powerstatus,
+                                  'issues':issues,
+                                  'ongoingissues':ongoingissues,
+                                  
+                          },
+                          dataType:'json',
+                          success:function(data)
+                          {
+                            if(data.orgviews)
+                              {
+                                updateToUserTable(data.orgviews);
+
+                              }
+                              console.log(data.orgviews)
+
+                            
+                          }
+
+
+                        });
+
+                  
+              }
+              
+      $('#updateSystem').trigger("reset");
+      $('#updateModal').modal('hide');
+      return false;
+
+        });
+
+
+
+
+function editSystem(id) {
+  if (id) {
+    tr_id = "#orgviews-" + id;
+    
+    sysname = $(tr_id).find(".sysName").text();
+    department = $(tr_id).find(".sysDepartment").text();
+    hddspace = $(tr_id).find(".sysHddspace").text();
+    ramsize = $(tr_id).find(".sysRamsize").text();
+    winstatus = $(tr_id).find(".sysWinstatus").text();
+    softwares = $(tr_id).find(".sysSoftwares").text();
+    healthstatus = $(tr_id).find(".sysHealthstatus").text();
+    powerstatus = $(tr_id).find(".sysPowerstatus").text();
+    
+    issues = $(tr_id).find(".sysIssues").text();
+    ongoingissues = $(tr_id).find(".sysOngoingissues").text();
+    $('#formid').val(id);
+    $('#formsysname').val(sysname);
+    $('#formdepartment').val(department);
+    $('#formhddspace').val(hddspace);
+    $('#formramsize').val(ramsize);
+    $('#formwinstatus').val(winstatus);
+    $('#formsoftware').val(softwares);
+    $('#formhealthstatus').val(healthstatus);
+    $('#formpowerstatus').val(powerstatus);
+    $('#formissues').val(issues);
+    $('#formongoingissues').val(ongoingissues);
+  }
+}
+function updateToUserTable(orgviews){
+    $("#tab #orgviews-" + orgviews.id).children(".userData").each(function() {
+        var attr = $(this).attr("name");
+        if (attr == "sysname") {
+          $(this).text(orgviews.sysname);
+        } else if (attr == "department") {
+          $(this).text(orgviews.department);
+        }
+        else if (attr == "hddspace") {
+          $(this).text(orgviews.hddspace);
+        }
+        else if (attr == "ramsize") {
+          $(this).text(orgviews.ramsize);
+        }
+        else if (attr == "winstatus") {
+          $(this).text(orgviews.winstatus);
+        }
+        else if (attr == "softwares") {
+          $(this).text(orgviews.softwares);
+        }
+        else if (attr == "healthstatus") {
+          $(this).text(orgviews.healthstatus);
+        }
+        else if (attr == "powerstatus") {
+          $(this).text(orgviews.powerstatus);
+        }
+        else if (attr == "issues") {
+          $(this).text(orgviews.issues);
+        }
+  
+         else {
+          $(this).text(orgviews.ongoingissues);
+        }
+      });
+}
+
+/*end of system update code*/
+
 $(document).ready(function(){
   $('.myclassname').each(function(){
     $(this).click(function(){
@@ -1309,9 +1587,13 @@ $(document).ready(function(){
               data:{id},
               dataType:'json',
               success:function(data)
-              {
-                   $("#dataTable tbody").html(data.html_org_list); 
-                   console.log(data.html_org_list);
+              {/*
+                   $("#tab tbody").html(data.html_org_list); 
+                   console.log(data.html_org_list);*/
+
+
+                   var content = $('#showme').append(data.html_org_list).find('#tab');
+                  $('#tab').html( content );
                 
               }
               
@@ -1331,6 +1613,11 @@ $(document).ready(function(){
 
 });
 
+/*$(document).ready(function () {
+  $('#tab').DataTable();
+  $('.dataTables_length').addClass('bs-select');
+});
+*/
 
             ;(function(ns) { // ns - namesapce into which tagify function should be set (in our case it is window)
   "use strict";
@@ -1881,6 +2168,8 @@ https://codepen.io/lsirivong/pen/xrFGn
 })();
 
 
+
+           
     
 
 
