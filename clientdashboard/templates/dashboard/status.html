@@ -48,7 +48,7 @@
                                 ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard</a>
 
-                             <a class="nav-link active" href="{% url 'status' %}"
+                             <a class="nav-link active" href=""
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Status</a>   
                            
@@ -122,10 +122,15 @@
                 <main>
                     <div class="container-fluid">
                         
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+                        <ol class="breadcrumb mb-4" style="margin-top: 20px;">
+                         <select class="custom-select" id="dptselect" name="department">
+                                <option selected> Choose Department</option>
+                                <option value="Department1">Department1</option>
+                                <option value="Department2">Department2</option>
+                       
+                         </select>
                         </ol>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-secondary text-white mb-4">
                                     <div class="card-body">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
@@ -165,7 +170,7 @@
                             
 
                             
-                        </div>
+                        </div> -->
                         <div class="row">
                             
                             <div class="col-xl-6">
@@ -242,14 +247,8 @@
                 </footer>
                
     <div class="row" align="center" style="margin: 30px;">
- <select class="custom-select" id="dptselect" name="department">
-                                <option selected> Choose Department</option>
-                                <option value="Department1">Department1</option>
-                                <option value="Department2">Department2</option>
-                       
-                         </select>
   <div class="col-am-12"  >
-    
+    <h1>Hello World</h1>  
     <canvas id="myChart1" width="400" height="400"></canvas>
   </div>
 
@@ -530,7 +529,7 @@
       return false;
     });
 
-//scroll dowm table
+//scroll dowm  to table
 $(document).ready(function(){
   
   $("#h1").on('click', function(event) {
@@ -554,6 +553,7 @@ $('#tab').DataTable({
 });
 $('.dataTables_length').addClass('bs-select');
 });
+
 
 /*chart*/
 var endpoint='/api/chart/data/'
@@ -584,7 +584,7 @@ var ctx = document.getElementById('myChart').getContext('2d');
         data: {
             labels:labels,
             datasets: [{
-                label: '# of Votes',
+              
                 data: defaultdata,
                  backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -609,8 +609,6 @@ var ctx = document.getElementById('myChart').getContext('2d');
     })
 
 }
-
-
 
 $(document).ready(function(){
     $('#dptselect').on('change',function(){
@@ -651,7 +649,7 @@ var ctx = document.getElementById('myChart1').getContext('2d');
         type: 'pie',
         data: {
 
-            
+            'department':department,
             labels:labels,
             datasets: [{
               

@@ -21,6 +21,8 @@ urlpatterns=[
 
 	# path('home_view/',views.HomeView.as_view(),name='home_view'),
 	path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
+	path('status/',views.status,name='status'),
+	path('api/chart/data/department/',views.ChartDataDepartment.as_view(),name='chart-data-department'),
 	
 
 ]

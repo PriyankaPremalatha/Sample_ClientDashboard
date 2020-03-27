@@ -23,4 +23,5 @@ urlpatterns = [
     path("clientdashboard/",include("clientdashboard.urls")),
     path("supportteamapp/",include("supportteamapp.urls")),
     path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
+    path('api/chart/data/department/',views.ChartDataDepartment.as_view(),name='chart-data-department'),
 ]

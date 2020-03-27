@@ -109,10 +109,10 @@ class OrgnameInsertion(View):
 		print(obj)
 		userss={'id':obj.id,
 					
-					'organizationname':organizationname,
-					'organizationmail':organizationmail,
-					'organizationaddr':organizationaddr,
-					'organizationphone':organizationphone,
+					'organizationname':obj.organizationname,
+					'organizationmail':obj.organizationmail,
+					'organizationaddr':obj.organizationaddr,
+					'organizationphone':obj.organizationphone,
 					
 				}
 
@@ -138,7 +138,7 @@ class SystemInfoInsert(View):
 		issues1=request.GET.get('issues',None)
 		ongoingissues1=request.GET.get('ongoingissues',None)
 
-		print(department1)
+		print(orgname1)
 		obj=SystemUpdateModel.objects.create(
 
 			
@@ -157,20 +157,22 @@ class SystemInfoInsert(View):
 			)
 		print(obj)
 		userss={'id':obj.id,
+				
+				'sysname':obj.sysname,
+				'department':obj.department,
+				'hddspace':obj.hddspace,
+				'ramsize':obj.ramsize,
+				'winstatus':obj.winstatus,
+				'softwares':obj.softwares,
+				'healthstatus':obj.healthstatus,
+				'powerstatus':obj.powerstatus,
+				'issues':obj.issues,
+				'ongoingissues':obj.ongoingissues,
 					
-					'orgname':orgname,
-					'sysname':sysname,
-					'department':department,
-					'hddspace':hddspace,
-					'ramsize':ramsize,
-					'winstatus':winstatus,
-					'softwares':softwares,
-					'healthstatus':healthstatus,
-					'powerstatus':powerstatus,
-					'issues':issues,
-					'ongoingissues':ongoingissues,
 					
+				
 				}
+				
 
 		data={'userss':userss}
 
