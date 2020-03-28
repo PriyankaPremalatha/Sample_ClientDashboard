@@ -229,8 +229,9 @@ class ChartDataDepartment(APIView):
     	sysorgname=request.user.username
     	org1=OrgInsertion.objects.get(organizationname=sysorgname)
     	orgid1=org1.id
-    	sysdepartment=SystemUpdateModel.objects.filter(department="Department1")
+    	
 
+    	sysdepartment=request.GET.get('department',None)
     	syshealth1=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="Healthy").count()
     	syshealth2=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="Need Attention").count()
     	syshealth3=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="Urgent Need Attention").count()
@@ -239,4 +240,7 @@ class ChartDataDepartment(APIView):
     	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
     	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
     	data={"labels":labels, "default":default_items}
+    	print(sysdepartment)
+    	print(syshealth1,syshealth2,syshealth3,syshealth4)
+    	print(default_items)
     	return Response(data)

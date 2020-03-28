@@ -555,6 +555,7 @@ $('#tab').DataTable({
 $('.dataTables_length').addClass('bs-select');
 });
 
+
 /*chart*/
 var endpoint='/api/chart/data/'
 var defaultdata=[]
@@ -620,16 +621,19 @@ $(document).ready(function(){
         alert(department);
 
         var endpoint='/api/chart/data/department/'
-        var defaultdata=[]
-        var labels= [];
+        /*var defaultdata1=[]
+        var labels1= [];*/
         $.ajax({
 
           method:"GET",
           url:endpoint,
+          data:{'department':department},
           success:function(data){
-            labels=data.labels
-            defaultdata=data.default
+            labels1=data.labels
+            defaultdata1=data.default
             setchart1()
+            console.log(labels1)
+            console.log(defaultdata1)
           },
           error:function(error_data){
 
@@ -647,15 +651,13 @@ $(document).ready(function(){
 
 function setchart1(){
 var ctx = document.getElementById('myChart1').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var myChart1 = new Chart(ctx, {
         type: 'pie',
         data: {
-
-            
-            labels:labels,
+            labels:labels1,
             datasets: [{
-              
-                data: defaultdata,
+                label: '# of Votes',
+                data: defaultdata1,
                  backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(100, 162, 235, 0.2)',
@@ -679,6 +681,7 @@ var ctx = document.getElementById('myChart1').getContext('2d');
     })
 
 }
+
 
 
 {% endblock jquery %}
