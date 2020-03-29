@@ -47,3 +47,10 @@ class SystemUpdateModel(models.Model):
 
 	
 
+# class TaskEventModel(models.Model):
+# 	systemname=models.CharField(max_length=150)
+# 	eventdate=models.DateField()
+# 	eventstatus=models.CharField(max_length=150)
+# 	time=models.CharField(max_length=150)
+
+

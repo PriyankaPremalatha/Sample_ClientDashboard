@@ -10267,3 +10267,11 @@ body {
 .c-main__result-view P {
   word-break: break-all;
 }
+
+
+#dataTable td{
+   white-space: nowrap;
+}
+#dataTable th{
+   white-space: nowrap;
+}

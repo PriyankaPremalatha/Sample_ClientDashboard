@@ -734,8 +734,10 @@
           <div class="modal-body text-center" >
             
             <button id="sysinfofile" class="btn btn-default" >System Information</button>
-            <button id="onsiteinfofile" class="btn btn-default"  style="margin-left: 10px;">Onsite Information</button>
+            
+            <button id="onsiteinfofile" class="btn btn-default"  style="margin-left: 10px;">Onsite Information</button><br><br>
 
+            <div><button id="taskeventfile" class="btn btn-default" >TaskEvent Information</button></div>
             <!-- system information -->
             <div id="sysinfoid" style="display: none">
               {{order}}
@@ -762,6 +764,20 @@
                 </div>
               </form>
             </div>
+
+            <!-- Task Event information -->
+             <div id="eventid" style="display: none">
+              <form method="post" enctype="multipart/form-data" action="onsitefile_upload/">
+              {% csrf_token %}
+              <div style="margin-top: 50px;px;">
+              <label style="font-family: Palatino Linotype;">Upload a User Event Information file</label><br>
+                <input type="file" name="file" class="form-control">
+                <p>Only acepts CSV files</p>
+                <button class="btn btn-info" type="submit">Upload TaskEvent File</button>
+                </div>
+              </form>
+            </div>
+
           </div>
          
         </div>
@@ -870,9 +886,9 @@
                      <select class="form-control" id="healthstatus" name="healthstatus">
                         <option selected>Health Status</option>
                         <option value="Healthy">Healthy</option>
-                        <option value="Need Attention">Need Attention</option>
-                        <option value="Urgent Need Attention">Urgent Need Attention</option>
-                        <option value="No Maintenance">No Maintenance</option>
+                        <option value="Need Attention">Need Maintenance</option>
+                        <option value="Urgent Need Attention">Urgent Need Maintenance</option>
+                        <option value="No Maintenance">None</option>
                        
                       </select>
 
@@ -1089,7 +1105,7 @@
                      <select class="form-control" id="formdepartment" name="form-department">
                         <option selected>Choose department</option>
                         <option value="Department1">Department1</option>
-                        <option value="Depatment2">Depatment2</option>
+                        <option value="Department2">Department2</option>
                        
                       </select>
 
@@ -1218,6 +1234,7 @@
             $("#sysinfofile").click(function(){      
             $("#sysinfoid").show();
             $("#onsiteid").hide();
+            $("#eventid").hide();
             });
           });
 
@@ -1225,9 +1242,18 @@
             $("#onsiteinfofile").click(function(){      
             $("#onsiteid").show();
             $("#sysinfoid").hide();
+            $("#eventid").hide();
             });
           });
-                  
+          
+          $(document).ready(function(){
+            $("#taskeventfile").click(function(){      
+            $("#eventid").show();
+            $("#sysinfoid").hide();
+            $("#onsiteid").hide();
+            });
+          });
+            
                   
 // ticket insert code
      $("#addTicket").submit(function(){

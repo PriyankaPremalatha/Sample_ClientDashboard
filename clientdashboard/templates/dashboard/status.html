@@ -52,7 +52,7 @@
                                 ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Status</a>   
                            
-                            <a class="nav-link active" href="#t1" id="h1"><div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div>
+                            <a class="nav-link active" href="{% url 'systemhealth' %}" id="h1"><div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div>
                                 System Information</a>
 
 
@@ -173,65 +173,33 @@
                         </div> -->
                         <div class="row">
                             
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Bar Chart Example</div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
+                            
                              <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
                                     <div class="card-body"><canvas id="myChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>Issues </div>
+                                    <div class="card-body"><canvas id="myChartissue" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                           
+
+
                         </div>
-                        <div class="card mb-4" id="t1">
-                            <div class="card-header"><i class="fas fa-table mr-1"></i>Sytem Information</div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>System_ID</th>
-                                                <th>Name</th>
-                                                <th>Department</th>
-                                                <th>Hardisk Space</th>
-                                                <th>RAM Size</th>
-                                                <th>Windows Status</th>
-                                                <th>Health Status</th>
-                                                <th>Power Status</th>
-                                                <th>Issues</th>
-                                                <th>Ongoing Issues</th>
-
-                                                
-                                            </tr>
-                                        </thead>
-                                        
-                                        <tbody>
-                                            {% if sysdata %}
-                                            {% for sysdatas in sysdata %}
-                                            <tr>
-                                                <td>{{sysdatas.id}}</td>
-                                                <td>{{sysdatas.sysname}}</td>
-                                                <td>{{sysdatas.department}}</td>
-                                                <td>{{sysdatas.hddspace}}</td>
-                                                <td>{{sysdatas.ramsize}}</td>
-                                                <td>{{sysdatas.winstatus}}</td>
-                                                <td>{{sysdatas.healthstatus}}</td>
-                                                <td>{{sysdatas.powerstatus}}</td>
-                                                <td>{{sysdatas.issues}}</td>
-                                                <td>{{sysdatas.ongoingissues}}</td>
-
-                                            </tr>
-                                           {% endfor %}
-                                           {% endif %}
-                                        </tbody>
-                                    </table>
+                        <div class="row">
+                           
+                             <div class="col-xl-6">
+                                <div class="card mb-4" id="dp" style="display: none;">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Department Health Status</div>
+                                    <div class="card-body"><canvas id="myChart1" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
@@ -246,13 +214,7 @@
                     </div>
                 </footer>
                
-    <div class="row" align="center" style="margin: 30px;">
-  <div class="col-am-12"  >
-    <h1>Hello World</h1>  
-    <canvas id="myChart1" width="400" height="400"></canvas>
-  </div>
-
-</div>
+    
 
                 <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -434,6 +396,10 @@
       </div>
     </div>
 
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    
+</figure>
 
 
             </div>
@@ -450,6 +416,12 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'demo/datatables-demo.js' %}"></script>
+
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <!-- <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script> -->
+
 {% block javascript %}
 
 <script>
@@ -610,24 +582,28 @@ var ctx = document.getElementById('myChart').getContext('2d');
 
 }
 
+/*Department wise Chart*/
 $(document).ready(function(){
     $('#dptselect').on('change',function(){
          var element=document.getElementById("dptselect");
          var department=element.options[element.selectedIndex].value;
 
         alert(department);
-
+        $('#dp').show();
         var endpoint='/api/chart/data/department/'
-        var defaultdata=[]
-        var labels= [];
+        /*var defaultdata1=[]
+        var labels1= [];*/
         $.ajax({
 
           method:"GET",
           url:endpoint,
+          data:{'department':department},
           success:function(data){
-            labels=data.labels
-            defaultdata=data.default
+            labels1=data.labels
+            defaultdata1=data.default
             setchart1()
+            console.log(labels1)
+            console.log(defaultdata1)
           },
           error:function(error_data){
 
@@ -645,20 +621,18 @@ $(document).ready(function(){
 
 function setchart1(){
 var ctx = document.getElementById('myChart1').getContext('2d');
-    var myChart = new Chart(ctx, {
+    var myChart1 = new Chart(ctx, {
         type: 'pie',
         data: {
-
-            'department':department,
-            labels:labels,
+            labels:labels1,
             datasets: [{
-              
-                data: defaultdata,
+                label: '# of Votes',
+                data: defaultdata1,
                  backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(100, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(190, 191, 255,0.2)',
+                'rgba(255, 255, 175, 0.2)',
+                'rgba(50, 102, 235, 0.2)',
+                'rgba(10, 206, 186, 0.2)',
+                'rgba(100, 80, 155,0.2)',
                 'rgba(200, 200, 100, 0.2)',
                 'rgba(255, 159, 64, 0.2)'
             ],
@@ -677,6 +651,149 @@ var ctx = document.getElementById('myChart1').getContext('2d');
     })
 
 }
+
+
+
+/*chart for issues*/
+var endpoint='/api/chart/data/issue/'
+var defaultdata=[]
+var labels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels=data.labels
+    defaultdata=data.default
+
+    setchart2()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+function setchart2(){
+var ctx = document.getElementById('myChartissue').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+
+            labels:labels,
+            datasets: [{
+
+                label: '# of Votes',
+                data: defaultdata,
+                 backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(100, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(100, 191, 255)',
+                'rgb(200, 200, 100)',
+                'rgb(255, 159, 64)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}
+
+/*Highcharts sample*/
+var endpoint='/api/chart/data/sample/'
+var defaultdata1=[]
+var labels1= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels1=data.labels1
+    defaultdata1=data.default1
+    
+    setchart3()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+
+function setchart3(){
+
+Highcharts.setOptions({
+    colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.5,
+                cy: 0.3,
+                r: 0.7
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.color(color).brighten(-0.3).get('rgb')] // darken
+            ]
+        };
+    })
+});
+
+// Build the chart
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Health Status'
+    },
+    tooltip: {
+        pointFormat: '{series.defaultdata1}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{series.labels1}</b>: {point.percentage:.1f} %',
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        labels:labels1,
+        data:defaultdata1,
+
+
+    }]
+});
+
+}
+
 
 
 {% endblock jquery %}

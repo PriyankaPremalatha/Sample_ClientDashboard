@@ -5,8 +5,8 @@ from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, 
 urlpatterns=[
 
 	path("registerform",views.registerform,name="registerform"),
-	path("loginform/",views.loginform,name="loginform"),
-	path("",views.index,name="index"),
+	path("",views.loginform,name="loginform"),
+	path("index",views.index,name="index"),
 	path("index1/",views.index1,name="index1"),
 	path("systemrequirement/",views.systemrequirement,name="systemrequirement"),
 	path("systemhealth/",views.systemhealth,name="systemhealth"),
@@ -23,6 +23,9 @@ urlpatterns=[
 	path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
 	path('status/',views.status,name='status'),
 	path('api/chart/data/department/',views.ChartDataDepartment.as_view(),name='chart-data-department'),
+	path('api/chart/data/issue/',views.ChartDataIssues.as_view(),name='chart-data-issue'),
+	path('healthysys/',views.healthysys,name='healthysys'),
+	path('api/chart/data/sample/',views.ChartDataSample.as_view(),name='chart-data-sample'),
 	
 
 ]

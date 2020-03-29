@@ -14,7 +14,7 @@ from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from django.db.models import Q
 
 # Create your views here.
 def registerform(request):
@@ -49,13 +49,14 @@ def loginform(request):
 
 	
 
-
+@login_required(login_url='loginform')
 def index(request):
 	return render(request,'index.html')	
 
 
 @login_required(login_url='loginform')
 def systemhealth(request):
+
 	organizationobj=OrgInsertion.objects.all()
 
 	sysorgname=request.user.username
@@ -68,9 +69,9 @@ def systemhealth(request):
 
 	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
 
+	sysonissues=SystemUpdateModel.objects.filter(Q(ongoingissues='None'),Q(ongoingissues='')).count()
 
-
-	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal}
+	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal,'sysonissues':sysonissues}
 	return render(request,'dashboard/systemhealth.html',context)	
 	
 		
@@ -239,8 +240,76 @@ class ChartDataDepartment(APIView):
 	    	
     	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
     	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
-    	data={"labels":labels, "default":default_items}
+    	data={"labels":labels, "default":default_items,'sysdepartment':sysdepartment}
     	print(sysdepartment)
     	print(syshealth1,syshealth2,syshealth3,syshealth4)
     	print(default_items)
+    	return Response(data)
+
+
+class ChartDataIssues(APIView):
+   
+    
+    def get(self, request, format=None):
+    	
+    	sysorgname=request.user.username
+    	org1=OrgInsertion.objects.get(organizationname=sysorgname)
+    	orgid1=org1.id
+    	
+
+    	
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
+    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
+    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues='')).count()
+    	
+	    	
+    	labels=['No Error','Error','Office 2016 licensing Error','Others']
+    	default_items=[issue1,issue2,issue3,issue4]
+    	data={"labels":labels, "default":default_items}
+    	
+    	
+    	print(default_items)
+    	return Response(data)
+
+def healthysys(request):
+
+	sysorgname=request.user.username
+	org=OrgInsertion.objects.get(organizationname=sysorgname)
+	orgid=org.id
+	healthysys=SystemUpdateModel.objects.filter(orgname=orgid,healthstatus="Healthy")
+	organizationobj=OrgInsertion.objects.all()
+
+	systotal=SystemUpdateModel.objects.filter(orgname=orgid).count()
+	syshealth=SystemUpdateModel.objects.filter(orgname=orgid,healthstatus="Healthy").count()
+	
+	systemmodel=SystemUpdateModel.objects.filter(orgname=orgid).count()
+
+	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
+
+	sysonissues=SystemUpdateModel.objects.filter(Q(ongoingissues='None'),Q(ongoingissues='')).count()
+
+	context={'healthysys':healthysys,'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal,'sysonissues':sysonissues}
+	return render(request,'dashboard/healthysys.html',context)
+
+
+class ChartDataSample(APIView):
+   
+    
+    def get(self, request, format=None):
+    	
+    	sysorgname=request.user.username
+    	org1=OrgInsertion.objects.get(organizationname=sysorgname)
+    	orgid1=org1.id
+    	print("******************************************************")
+    	print(sysorgname)
+    	print(orgid1)
+    	syshealth1=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Healthy").count()
+    	syshealth2=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Need Attention").count()
+    	syshealth3=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Urgent Need Attention").count()
+    	syshealth4=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="No Maintenance").count()
+	    	
+    	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
+    	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
+    	data={"labels1":labels, "default1":default_items}
     	return Response(data)

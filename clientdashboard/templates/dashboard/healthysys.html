@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        
+        <link href="{% static 'effects/styles.css' %}" rel="stylesheet" />
+
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        {% block content %}
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
+            <!-- Navbar-->
+             <div class="nav-item">
+              <a class="nav-link"  style="color: white;">
+                {{request.user.username}}</a>
+            </div>
+
+             <div class="nav-item ">
+              <a class="nav-link" href="#exampleModal" data-toggle="modal" data-target="#exampleModal" style="color: white;"><i class="fas fa-user"></i>&nbsp;Logout</a>
+                
+            </div>
+
+            
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            
+                            <a class="nav-link active" href="{% url 'systemhealth' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard</a>
+
+                             <a class="nav-link active" href="{% url 'status' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Status</a>   
+                           
+                            <a class="nav-link active" href="#t1" id="h1"><div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div>
+                                System Information</a>
+
+
+                            <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
+                                New System Requirement</a>
+
+                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Import File</a>
+                            <!-- <a class="nav-link" href="{% url 'systemhealth' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                Event Viewer</a>
+
+                             <a class="nav-link" href="{% url 'systemhealth' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
+                                PDrive Access</a>
+                              <a class="nav-link" href="{% url 'systemhealth' %}"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-hdd"></i></div>
+                                Hard Disk</a> -->
+                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Layouts
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav>
+                            </div> -->
+                           <!--  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Pages
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a> -->
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
+                                        >Authentication
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                                    ></a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
+                                        >Error
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                                    ></a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
+                                    </div>
+                                </nav>
+                            </div>
+                            <!-- <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="charts.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts</a
+                            ><a class="nav-link" href="tables.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables</a
+                            >
+                        </div>
+                    </div>
+                     -->
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-secondary text-white mb-4">
+
+                                    <div class="card-body">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{% url 'systemhealth' %}">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-secondary text-white mb-4">
+                                    <div class="card-body">Logged In System &nbsp;&nbsp;&nbsp;</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-secondary text-white mb-4">
+                                    <div class="card-body">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-secondary text-white mb-4">
+                                    <div class="card-body">Ongoing &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Bar Chart Example</div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                             <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
+                                    <div class="card-body"><canvas id="myChart" width="100%" height="40"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4" id="t1">
+                            <div class="card-header"><i class="fas fa-table mr-1"></i>Sytem Information</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>System_ID</th>
+                                                <th>Name</th>
+                                                <th>Department</th>
+                                                <th>Hardisk Space</th>
+                                                <th>RAM Size</th>
+                                                <th>Windows Status</th>
+                                                <th>Health Status</th>
+                                                <th>Power Status</th>
+                                                
+
+                                                
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            {% if healthysys %}
+                                            {% for hs in healthysys %}
+                                            <tr>
+                                                <td>{{hs.id}}</td>
+                                                <td>{{hs.sysname}}</td>
+                                                <td>{{hs.department}}</td>
+                                                <td>{{hs.hddspace}}</td>
+                                                <td>{{hs.ramsize}}</td>
+                                                <td>{{hs.winstatus}}</td>
+                                                <td>{{hs.healthstatus}}</td>
+                                                <td>{{hs.powerstatus}}</td>
+                                                
+
+                                            </tr>
+                                           {% endfor %}
+                                           {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted"></div>
+                            <div>
+                                <a href="#"></a>
+                                &middot;
+                                <a href="#"></a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+    
+ <!--  <div class="col-sm-4"  >
+    
+    <canvas id="myChartissue" width="400" height="400"></canvas>
+  </div>
+ -->
+</div>
+
+                <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Are you sure to logout from this site ?</div>
+          <div class="modal-footer">
+            
+            <a class="btn btn-primary" href="{% url 'loginform' %}">Logout</a>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Import File -->
+             
+    <div class="modal fade" id="importfileModal" tabindex="-1" role="dialog" aria-labelledby="importfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="importfileModalLabel">Choose File to Import</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              
+
+              <div>
+              {{order}}
+              <form method="post" enctype="multipart/form-data"  action="requirementfile_upload/">
+              {% csrf_token %}
+              <div style="margin-top: 30px;px;" align="center">
+              <label style="font-family: Palatino Linotype;">Upload a System Requirement file</label><br>
+                <input type="file" name="file" class="form-control">
+                <p>Only acepts CSV files</p>
+                <button class="btn btn-info" type="submit">Upload File</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+<!-- systemrequirement model -->
+    <div class="modal fade" id="systemreqModal" tabindex="-1" role="dialog" aria-labelledby="systemreqModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="systemreqModalLabel">System Requirements</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <form action="" id="addsystemreq">
+            {% csrf_token %}
+          <div class="modal-body">
+                    <div class="form-group">
+                        <select class="form-control" id="reqpname" name="reqpname">
+                      <option selected>Choose Organization</option>
+                      {% if organizationobj %}
+                        {% for organizationobjs in organizationobj %}
+                        
+                        <option value="{{organizationobjs.organizationname}}">{{organizationobjs.organizationname}}</option>
+                        
+                         {% endfor %}
+                       {% endif %}
+                      </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="pname" placeholder="Enter person name who need system" class="form-control">
+                    </div>
+
+             
+
+                    <div class="form-group">
+                     <select class="custom-select" id="hddselect" name="disktype">
+                        <option selected>Choose disk type</option>
+                        <option value="Standard HDD"> Standard HDD</option>
+                        <option value="Standard HDD">Standard SSD</option>
+                       
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="custom-select" id="diskselect" name="disksize">
+                       <option selected>Choose disk size</option>
+                        <option value="32 GB">32 GB</option>
+                        <option value="64 GB">64 GB</option>
+                        <option value="128 GB">128 GB</option>
+                        <option value="256 GB">256 GB</option>
+                        <option value="512 GB">512 GB</option>
+                        <option value="1024 GB">1024 GB</option>
+                        <option value="2048 GB">2048 GB</option>
+                        <option value="4096 GB">4096 GB</option>
+                        <option value="8192 GB">8192 GB</option>
+                        <option value="16384 GB">16384 GB</option>
+                        <option value="32767 GB">32767 GB</option>
+
+
+
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                    <input type="number" name="ndisk" class="form-control" placeholder="No. of disk ">
+                    </div>
+
+                    <div class="form-group">
+                        <select class="custom-select" id="coreselect" name="cpucore">
+                            <option selected>Choose CPU Core</option>
+                            <option value="1 Core">1 Core</option>
+                            <option value="2 Cores">2 Cores</option>
+                            <option value="4 Cores">4 Cores</option>
+                            <option value="6 Cores">6 Cores</option>
+                            <option value="8 Cores">8 Cores</option>
+                            <option value="16 Cores">16 Cores</option>
+                          </select>
+
+                    </div>
+
+                     <div class="form-group">
+                                            <select class="custom-select" id="ramselect" name="ramsize">
+                            <option selected>Choose RAM size</option>
+                           <option value="32 GB">0.75 GB</option>
+                           <option value="32 GB">1 GB</option>
+                           <option value="32 GB">2 GB</option>
+                           <option value="32 GB">4 GB</option> 
+                           <option value="32 GB">8 GB</option> 
+                           <option value="32 GB">16 GB</option> 
+                           <option value="32 GB">32 GB</option>
+                            <option value="64 GB">64 GB</option>
+                            <option value="128 GB">128 GB</option>
+                            <option value="256 GB">256 GB</option>
+                            <option value="512 GB">512 GB</option>
+                            <option value="1024 GB">1024 GB</option>
+                            <option value="2048 GB">2048 GB</option>
+                            <option value="4096 GB">4096 GB</option>
+                            <option value="8192 GB">8192 GB</option>
+                            <option value="16384 GB">16384 GB</option>
+                            <option value="32767 GB">32767 GB</option>
+
+
+                          </select>
+
+                    </div>
+
+                     <div class="form-group">
+                     <input type="text" name="nmonitors" class="form-control" placeholder="No.of monitors">
+                    </div>
+
+                    
+                
+
+              
+               
+
+
+          </div>
+          <div class="modal-footer " >
+            
+            <button class="btn btn-primary " style="width: 200px;" type="submit">Send</button>
+            
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+            </div>
+        </div>
+        {% endblock  %}   
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/scripts.js' %}"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'demo/chart-area-demo.js' %}"></script>
+        <script src="{% static 'demo/chart-bar-demo.js' %}"></script>
+        <script src="{% static 'demo/chart-pie-demo.js' %}"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'demo/datatables-demo.js' %}"></script>
+{% block javascript %}
+
+<script>
+{% block jquery %}
+  
+
+    $("#addsystemreq").submit(function(){
+
+         alert("hi");
+              
+               var element=document.getElementById("reqpname");
+               var reqpname=element.options[element.selectedIndex].value;
+
+              var pname=$('input[name="pname"]').val().trim();
+              
+              var element=document.getElementById("hddselect");
+              var disktype=element.options[element.selectedIndex].value;
+              
+              var element=document.getElementById("diskselect");
+              var disksize=element.options[element.selectedIndex].value;
+              
+              var ndisk=$('input[name="ndisk"]').val();
+              
+              var element=document.getElementById("coreselect");
+              var cpucore=element.options[element.selectedIndex].value;
+
+              var element=document.getElementById("ramselect");
+              var ramsize=element.options[element.selectedIndex].value;
+
+              var nmonitors=$('input[name="nmonitors"]').val().trim();
+
+
+
+            if(pname=="" && reqpname=="" && disktype=="Choose disk type" && ramsize=="Choose RAM size" && cpucore=="Choose CPU Core")
+              {
+
+                alert("Please Enter missing fields");
+                
+              }
+
+              else
+              {
+                  
+
+                   $.ajax({
+                            url:'{% url "systemreqinsert" %}',
+                            
+                          
+                          data:{
+                                  
+                                  'reqpname':reqpname,
+                                  'pname':pname,
+                                  'hddtype':disktype,
+                                  'disksize':disksize,
+                                  'ndisk':ndisk,
+                                  'cpucore':cpucore,
+                                  'ramsize':ramsize,
+                                  'nmonitors':nmonitors,
+                                  
+                          },
+                          dataType:'json',
+                          success:function()
+                          {
+                            alert('System Information added Successfully');
+
+                            
+                          }
+
+
+                        });
+
+                  
+              }
+              
+      $('form#addsystemreq').trigger("reset");
+      $('#systemreqModal').modal('hide');
+      return false;
+    });
+
+//scroll dowm table
+$(document).ready(function(){
+  
+  $("#h1").on('click', function(event) {
+ 
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    } 
+  });
+});
+
+//Search option
+$(document).ready(function () {
+$('#tab').DataTable({
+"searching": false // false to disable search (or any other option)
+});
+$('.dataTables_length').addClass('bs-select');
+});
+
+
+/*chart*/
+var endpoint='/api/chart/data/'
+var defaultdata=[]
+var labels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels=data.labels
+    defaultdata=data.default
+    setchart()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+function setchart(){
+var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels:labels,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultdata,
+                 backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(100, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(190, 191, 255,0.2)',
+                'rgba(200, 200, 100, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}
+
+
+
+$(document).ready(function(){
+    $('#dptselect').on('change',function(){
+         var element=document.getElementById("dptselect");
+         var department=element.options[element.selectedIndex].value;
+
+        alert(department);
+
+        var endpoint='/api/chart/data/department/'
+        /*var defaultdata1=[]
+        var labels1= [];*/
+        $.ajax({
+
+          method:"GET",
+          url:endpoint,
+          data:{'department':department},
+          success:function(data){
+            labels1=data.labels
+            defaultdata1=data.default
+            setchart1()
+            console.log(labels1)
+            console.log(defaultdata1)
+          },
+          error:function(error_data){
+
+            console.log("error")
+            console.log(error_data)
+          }
+
+
+});
+
+
+    });
+});
+
+
+function setchart1(){
+var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels:labels1,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultdata1,
+                 backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(100, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(190, 191, 255,0.2)',
+                'rgba(200, 200, 100, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}
+
+
+/*chart for issues*/
+/*var endpoint='/api/chart/data/issue/'
+var defaultdata=[]
+var labels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels=data.labels
+    defaultdata=data.default
+    setchart2()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+function setchart2(){
+var ctx = document.getElementById('myChartissue').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels:labels,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultdata,
+                 backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(100, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(174, 191, 255,0.2)',
+                'rgba(200, 200, 100, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(175, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}
+*/
+
+{% endblock jquery %}
+</script>
+{% endblock javascript %}
+               
+
+     
+    </body>
+</html>

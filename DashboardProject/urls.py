@@ -24,4 +24,6 @@ urlpatterns = [
     path("supportteamapp/",include("supportteamapp.urls")),
     path('api/chart/data/',views.ChartData.as_view(),name='chart-data'),
     path('api/chart/data/department/',views.ChartDataDepartment.as_view(),name='chart-data-department'),
+    path('api/chart/data/issue/',views.ChartDataIssues.as_view(),name='chart-data-issue'),
+    path('api/chart/data/sample/',views.ChartDataSample.as_view(),name='chart-data-sample'),
 ]
