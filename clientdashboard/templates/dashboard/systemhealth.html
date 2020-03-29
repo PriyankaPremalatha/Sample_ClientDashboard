@@ -169,10 +169,10 @@
                         </div>
                         <div class="row">
                             
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Bar Chart Example</div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                             <div class="col-xl-6">
+                                <div class="card mb-4" >
+                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Department Health Status</div>
+                                    <div class="card-body" id="hddspaceid" width="100%" height="40"></div>
                                 </div>
                             </div>
                              <div class="col-xl-6">
@@ -240,11 +240,7 @@
                     </div>
                 </footer>
     
- <!--  <div class="col-sm-4"  >
-    
-    <canvas id="myChartissue" width="400" height="400"></canvas>
-  </div>
- -->
+<div id="hddspaceid"></div>
 </div>
 
                 <!-- Logout Modal-->
@@ -810,6 +806,85 @@ for(var i=0;i<x.length;i++){
     }]
 });
 }
+
+
+var endpoint='/api/chart/data/hddspace/'
+var ddefaultdata=[]
+var dlabels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    dlabels=data.disklabels
+    ddefaultdata=data.diskdefault
+    console.log(dlabels)
+    spacechart()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+
+function spacechart()
+{
+    var x=new Array(2);
+    var xu=new Array(2);
+    for(var i=0;i<x.length;i++){
+     xu[i]=dlabels[i];
+     x[i]=[dlabels[i],ddefaultdata[i]];}
+     console.log(x)
+     console.log(xu)
+
+    Highcharts.chart('hddspaceid', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45
+        }
+    },
+     credits: {
+    enabled: false
+        },
+    title: {
+        text:'Disk Space'
+    },
+   
+    plotOptions: {
+        pie: {
+            innerSize: 250,
+            depth: 65,
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '{point.name} ({point.percentage:.1f}%)',
+                connectorWidth: 2,
+            }
+        }
+    },
+    colors:['#BB8FCE', '#d34836', '#8a3ab9', '#0077B5', '#0084b4', '#bb0000'],
+    series: [{
+        name: 'Status',
+        data: x,
+    }],
+    tooltip:{
+        useHTML: true,  
+         headerFormat: '<h6>{point.key}</h6>',
+         pointFormat: '<h6>{point.percentage:.1f}% </h6>',
+    }
+});
+}
+
+
+
+
 {% endblock jquery %}
 </script>
 {% endblock javascript %}

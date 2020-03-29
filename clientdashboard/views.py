@@ -313,3 +313,20 @@ class ChartDataSample(APIView):
     	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
     	data={"labels1":labels, "default1":default_items}
     	return Response(data)
+
+class ChartDataHddspace(APIView):
+   
+    
+    def get(self, request, format=None):
+    	
+    	sysorgname=request.user.username
+    	org1=OrgInsertion.objects.get(organizationname=sysorgname)
+    	orgid1=org1.id
+    	
+    	diskhealth1=SystemUpdateModel.objects.filter(orgname=orgid1,hddspace="Normal").count()
+    	diskhealth2=SystemUpdateModel.objects.filter(orgname=orgid1,hddspace="Critical").count()
+    		
+    	labels=['Normal','Critical']
+    	default_items=[diskhealth1,diskhealth2]
+    	data={"disklabels":labels, "diskdefault":default_items}
+    	return Response(data)

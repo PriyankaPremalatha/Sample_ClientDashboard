@@ -26,6 +26,7 @@ urlpatterns=[
 	path('api/chart/data/issue/',views.ChartDataIssues.as_view(),name='chart-data-issue'),
 	path('healthysys/',views.healthysys,name='healthysys'),
 	path('api/chart/data/sample/',views.ChartDataSample.as_view(),name='chart-data-sample'),
+	path('api/chart/data/hddspace/',views.ChartDataHddspace.as_view(),name='chart-data-hddspace'),
 	
 
 ]

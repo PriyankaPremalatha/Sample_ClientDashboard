@@ -198,6 +198,8 @@
                                     <div class="card-body" id="pie" width="100%" height="40"></div>
                                 </div>
                             </div>
+
+                             
                         </div>
                         
                 </main>
@@ -851,7 +853,7 @@ function depsetchart()
     enabled: false
         },
     title: {
-        text:depname +'Health Status'
+        text:depname+"    "+'-'+" "+'Health Status'
     },
    
     plotOptions: {
@@ -879,6 +881,9 @@ function depsetchart()
     }
 });
 }
+
+
+
 {% endblock jquery %}
 </script>
 {% endblock javascript %}
