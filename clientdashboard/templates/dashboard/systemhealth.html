@@ -239,11 +239,11 @@
                         </div>
                     </div>
                 </footer>
-     <div class="card mb-4">
+    <!--  <div class="card mb-4">
     <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
     <div class="card-body"><div id="barchartid" width="100%" height="40"></div></div>
     </div>
-
+ -->
 </div>
 
                 <!-- Logout Modal-->
@@ -883,7 +883,7 @@ function spacechart()
 
 
 /*chart*/
-var endpoint='/api/chart/data/'
+/*var endpoint='/api/chart/data/'
 var defaultdata=[]
 var labels= [];
 $.ajax({
@@ -903,7 +903,7 @@ $.ajax({
 
 
 });
-
+*/
 /*function setchart(){
 var ctx = document.getElementById("barchartid").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -938,7 +938,7 @@ var ctx = document.getElementById("barchartid").getContext('2d');
 }*/
 
 
-function barchart(){
+/*function barchart(){
 
     var x=new Array(4);
     var xu=new Array(4);
@@ -981,7 +981,7 @@ Highcharts.chart('barchartid', {
     }]
 });
 }
-
+*/
 {% endblock jquery %}
 </script>
 {% endblock javascript %}
