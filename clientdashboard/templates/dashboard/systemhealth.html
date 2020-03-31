@@ -127,9 +127,9 @@
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
+                                <div class="card bg-info text-white mb-4">
 
-                                    <div class="card-body">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
+                                    <div class="card-body"  id="bgstyle">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#t1">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -137,8 +137,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Logged In System &nbsp;&nbsp;&nbsp;</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body" id="bgstyle">Logged In System &nbsp;&nbsp;&nbsp;</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -146,8 +146,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body"  id="bgstyle">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="{% url 'healthysys' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -155,8 +155,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Ongoing Issues &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body"  id="bgstyle">Ongoing Issues &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -215,7 +215,7 @@
                                                 <td>{{sysdatas.winstatus}}</td>
                                                 <td>{{sysdatas.healthstatus}}</td>
                                                 <td>{{sysdatas.powerstatus}}</td>
-                                                
+                                                <!-- <td>{{sysdatas.timestamp|date:"d-m-Y" }}</td> -->
 
                                             </tr>
                                            {% endfor %}
@@ -239,8 +239,11 @@
                         </div>
                     </div>
                 </footer>
-    
-<div id="hddspaceid"></div>
+     <div class="card mb-4">
+    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
+    <div class="card-body"><div id="barchartid" width="100%" height="40"></div></div>
+    </div>
+
 </div>
 
                 <!-- Logout Modal-->
@@ -406,12 +409,6 @@
                     </div>
 
                     
-                
-
-              
-               
-
-
           </div>
           <div class="modal-footer " >
             
@@ -427,6 +424,7 @@
 
             </div>
         </div>
+
         {% endblock  %}   
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
          <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -884,6 +882,105 @@ function spacechart()
 
 
 
+/*chart*/
+var endpoint='/api/chart/data/'
+var defaultdata=[]
+var labels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels=data.labels
+    defaultdata=data.default
+    barchart()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+/*function setchart(){
+var ctx = document.getElementById("barchartid").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels:labels,
+            datasets: [{
+                label: '# of Votes',
+                data: defaultdata,
+                 backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(100, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(190, 191, 255,0.2)',
+                'rgba(200, 200, 100, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+            }]
+        }
+
+    })
+
+}*/
+
+
+function barchart(){
+
+    var x=new Array(4);
+    var xu=new Array(4);
+    for(var i=0;i<x.length;i++){
+        xu[i]=labels[i];
+        x[i]=[labels[i],defaultdata[i]];}
+ console.log(x)
+ console.log(xu)
+
+Highcharts.chart('barchartid', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Stacked column chart'
+    },
+    xAxis: {
+        categories:xu
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'No of Issues'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+    },
+    plotOptions: {
+        column: {
+            stacking: 'percent'
+        }
+    },
+    series: [{
+        
+        name: xu,
+        data:x
+    
+    }]
+});
+}
 
 {% endblock jquery %}
 </script>

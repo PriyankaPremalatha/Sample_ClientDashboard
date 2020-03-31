@@ -595,6 +595,8 @@ $(document).ready(function(){
         var endpoint='/api/chart/data/department/'
         /*var defaultdata1=[]
         var labels1= [];*/
+        
+
         $.ajax({
 
           method:"GET",
@@ -613,7 +615,7 @@ $(document).ready(function(){
           }
 
 
-});
+        });
 
 
     });
@@ -823,6 +825,7 @@ for(var i=0;i<x.length;i++){
       depth: 45
     }
   },
+  colors:['#D5F5E3', '#7FB3D5 ', '#F08080', '#2874A6', '#0084b4', '#bb0000'],
   series: [{
     name: 'Status',
     data: x

@@ -127,9 +127,9 @@
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
+                                <div class="card bg-info text-white mb-4">
 
-                                    <div class="card-body">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
+                                    <div class="card-body" id="bgstyle">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="{% url 'systemhealth' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -137,8 +137,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Logged In System &nbsp;&nbsp;&nbsp;</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body" id="bgstyle">Logged In System &nbsp;&nbsp;&nbsp;</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -146,8 +146,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body" id="bgstyle">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -155,8 +155,8 @@
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mb-4">
-                                    <div class="card-body">Ongoing &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
+                                <div class="card bg-info text-white mb-4">
+                                    <div class="card-body" id="bgstyle">Ongoing &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <a class="small text-white stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -172,13 +172,13 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Bar Chart Example</div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><div id="hddspaceid" width="100%" height="40"></div></div>
                                 </div>
                             </div>
                              <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
-                                    <div class="card-body"><canvas id="myChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><div id="container" width="100%" height="40"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -443,6 +443,10 @@
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'demo/datatables-demo.js' %}"></script>
+
+         <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+
 {% block javascript %}
 
 <script>
@@ -549,7 +553,7 @@ $('.dataTables_length').addClass('bs-select');
 
 
 /*chart*/
-var endpoint='/api/chart/data/'
+/*var endpoint='/api/chart/data/'
 var defaultdata=[]
 var labels= [];
 $.ajax({
@@ -601,11 +605,11 @@ var ctx = document.getElementById('myChart').getContext('2d');
 
     })
 
-}
+}*/
 
 
 
-$(document).ready(function(){
+/*$(document).ready(function(){
     $('#dptselect').on('change',function(){
          var element=document.getElementById("dptselect");
          var department=element.options[element.selectedIndex].value;
@@ -613,8 +617,8 @@ $(document).ready(function(){
         alert(department);
 
         var endpoint='/api/chart/data/department/'
-        /*var defaultdata1=[]
-        var labels1= [];*/
+        var defaultdata1=[]
+        var labels1= [];
         $.ajax({
 
           method:"GET",
@@ -673,7 +677,7 @@ var ctx = document.getElementById('myChart1').getContext('2d');
     })
 
 }
-
+*/
 
 /*chart for issues*/
 /*var endpoint='/api/chart/data/issue/'
@@ -730,6 +734,162 @@ var ctx = document.getElementById('myChartissue').getContext('2d');
 
 }
 */
+
+
+/*Highcharts sample*/
+var endpoint='/api/chart/data/sample/'
+var defaultdata1=[]
+var labels1= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    labels1=data.labels1
+    defaultdata1=data.default1
+    
+    healthstatus3d()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+
+
+function healthstatus3d(){
+var x=new Array(4);
+var xu=new Array(4);
+for(var i=0;i<x.length;i++){
+ xu[i]=labels1[i];
+ x[i]=[labels1[i],defaultdata1[i]];}
+ console.log(x)
+ console.log(xu)
+
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45,
+            beta: 0
+        }
+    },
+
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+     title: {
+        text: 'Health Status'
+    },
+    credits: {
+    enabled: false
+        },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 35,
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }
+    },
+    series: [{
+        type: 'pie',
+        name: 'Status',
+        data: x,
+    }]
+});
+}
+
+/*hddspacechart*/
+
+var endpoint='/api/chart/data/hddspace/'
+var ddefaultdata=[]
+var dlabels= [];
+$.ajax({
+
+  method:"GET",
+  url:endpoint,
+  success:function(data){
+    dlabels=data.disklabels
+    ddefaultdata=data.diskdefault
+    console.log(dlabels)
+    spacechart()
+  },
+  error:function(error_data){
+
+    console.log("error")
+    console.log(error_data)
+  }
+
+
+});
+
+
+function spacechart()
+{
+    var x=new Array(2);
+    var xu=new Array(2);
+    for(var i=0;i<x.length;i++){
+     xu[i]=dlabels[i];
+     x[i]=[dlabels[i],ddefaultdata[i]];}
+     console.log(x)
+     console.log(xu)
+
+    Highcharts.chart('hddspaceid', {
+    chart: {
+        type: 'pie',
+        options3d: {
+            enabled: true,
+            alpha: 45
+        }
+    },
+     credits: {
+    enabled: false
+        },
+    title: {
+        text:'Disk Space'
+    },
+   
+    plotOptions: {
+        pie: {
+            innerSize: 250,
+            depth: 65,
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '{point.name} ({point.percentage:.1f}%)',
+                connectorWidth: 2,
+            }
+        }
+    },
+    colors:['#BB8FCE', '#d34836', '#8a3ab9', '#0077B5', '#0084b4', '#bb0000'],
+    series: [{
+        name: 'Status',
+        data: x,
+    }],
+    tooltip:{
+        useHTML: true,  
+         headerFormat: '<h6>{point.key}</h6>',
+         pointFormat: '<h6>{point.percentage:.1f}% </h6>',
+    }
+});
+}
+
 
 {% endblock jquery %}
 </script>

@@ -69,6 +69,7 @@ def systemhealth(request):
 
 	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
 
+
 	sysonissues=SystemUpdateModel.objects.filter(Q(ongoingissues='None'),Q(ongoingissues='')).count()
 
 	context={'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal,'sysonissues':sysonissues}
@@ -202,19 +203,22 @@ class ChartData(APIView):
     	sysorgname=request.user.username
     	org1=OrgInsertion.objects.get(organizationname=sysorgname)
     	orgid1=org1.id
-    	print("******************************************************")
-    	print(sysorgname)
-    	print(orgid1)
-    	syshealth1=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Healthy").count()
-    	syshealth2=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Need Attention").count()
-    	syshealth3=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="Urgent Need Attention").count()
-    	syshealth4=SystemUpdateModel.objects.filter(orgname=orgid1,healthstatus="No Maintenance").count()
+    	
+
+    	
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
+    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
+    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
+    	
 	    	
-    	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
-    	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
+    	labels=['No Error','Error','Office 2016 licensing Error','Others']
+    	default_items=[issue1,issue2,issue3,issue4]
     	data={"labels":labels, "default":default_items}
-    	return Response(data)
-        
+    	
+    	
+    	print(default_items)
+    	return Response(data)    
 
 
 def status(request):
@@ -261,7 +265,7 @@ class ChartDataIssues(APIView):
     	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
     	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
     	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
-    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues='')).count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
     	
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
@@ -272,6 +276,7 @@ class ChartDataIssues(APIView):
     	print(default_items)
     	return Response(data)
 
+@login_required(login_url='loginform')
 def healthysys(request):
 
 	sysorgname=request.user.username
@@ -330,3 +335,5 @@ class ChartDataHddspace(APIView):
     	default_items=[diskhealth1,diskhealth2]
     	data={"disklabels":labels, "diskdefault":default_items}
     	return Response(data)
+
+
