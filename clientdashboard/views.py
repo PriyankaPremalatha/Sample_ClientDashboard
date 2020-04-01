@@ -211,10 +211,14 @@ class ChartData(APIView):
     	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
     	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
     	
+    	year=2020
+    	month=3
+    	issuedate=SystemUpdateModel.objects.filter(timestamp__year__gte=year,timestamp__month__gte=month,timestamp__year__lte=year,timestamp__month__lte=month).all()
+		
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
     	default_items=[issue1,issue2,issue3,issue4]
-    	data={"labels":labels, "default":default_items}
+    	data={"labels":labels, "default":default_items,"issuedate":list(issuedate)}
     	
     	
     	print(default_items)
