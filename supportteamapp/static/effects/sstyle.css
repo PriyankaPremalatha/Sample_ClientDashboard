@@ -1,4 +1,11 @@
+body
+{
+  background: url('image/simple.jpeg');
+  background-size: cover;
+  
+  background-repeat: no-repeat;
 
+}
 .panel-heading {
     
     

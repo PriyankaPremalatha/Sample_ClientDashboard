@@ -2,6 +2,8 @@
 <html lang="en">
     <head>
         {% load static %}
+
+        <title>Dashboard Chart</title>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -239,11 +241,8 @@
                         </div>
                     </div>
                 </footer>
-     <div class="card mb-4">
-    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Health Status</div>
-    <div class="card-body"><div id="barchartid" width="100%" height="40"></div></div>
-    </div>
-
+    
+                    <div id="linechartid"></div>
 </div>
 
                 <!-- Logout Modal-->
@@ -836,8 +835,6 @@ function spacechart()
     for(var i=0;i<x.length;i++){
      xu[i]=dlabels[i];
      x[i]=[dlabels[i],ddefaultdata[i]];}
-     console.log(x)
-     console.log(xu)
 
     Highcharts.chart('hddspaceid', {
     chart: {
@@ -881,9 +878,7 @@ function spacechart()
 }
 
 
-
-
-/*chart*/
+/*line chart*/
 var endpoint='/api/chart/data/'
 var defaultdata=[]
 var labels= [];
@@ -894,8 +889,9 @@ $.ajax({
   success:function(data){
     labels=data.labels
     defaultdata=data.default
-    issuedate=data.issuedate
+    issuedate=data.date
     console.log(issuedate)
+    linechart()
   },
   error:function(error_data){
 
@@ -906,43 +902,82 @@ $.ajax({
 
 });
 
-Highcharts.chart('barchartid', {
+
+function linechart()
+{
+
+    var x=new Array(4);
+    var xu=new Array(4);
+    for(var i=0;i<x.length;i++){
+     xu[i]=labels[i];
+     x[i]=[labels[i],defaultdata[i]];}
+     console.log(x)
+
+Highcharts.chart('linechartid', {
     chart: {
         type: 'column'
     },
     title: {
-        text: 'Stacked column chart'
+        text: 'Month Wise Issues Chart'
     },
+    
+
     xAxis: {
-        categories: ['12 Jan', '13 Jan', '14 Jan', '15 Jan', '16 Jan']
+        categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ],
+        crosshair: true
     },
     yAxis: {
         min: 0,
         title: {
-            text: 'Total fruit consumption'
+            
         }
     },
-    tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-        shared: true
+   /* tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
     },
     plotOptions: {
         column: {
-            stacking: 'percent'
+            pointPadding: 0.2,
+            borderWidth: 0
         }
-    },
+    },*/
     series: [{
-        name: 'Error',
-        data: [5, 3, 4, 7, 2]
+        name: xu[0],
+        data: x[0]
+
     }, {
-        name: 'No Error',
-        data: [2, 2, 3, 2, 1]
+        name:xu[1],
+        data:x[1]
+
     }, {
-        name: 'Office 2016 licensing error',
-        data: [3, 4, 4, 2, 5]
+        name: xu[2],
+        data: x[2]
+
+    }, {
+        name: xu[3],
+        data: x[3]
+
     }]
 });
-
+}
 
 {% endblock jquery %}
 </script>

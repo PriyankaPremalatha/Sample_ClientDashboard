@@ -15,7 +15,11 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db.models import Q
+from django.db.models import Count
+from django.db.models.functions import TruncMonth as Month, TruncYear as Year
 
+from django.template.loader import get_template
+from django.http import HttpResponse
 # Create your views here.
 def registerform(request):
 	if request.method=="POST":
@@ -204,21 +208,20 @@ class ChartData(APIView):
     	org1=OrgInsertion.objects.get(organizationname=sysorgname)
     	orgid1=org1.id
     	
-
-    	
-    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
-    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
-    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
-    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
-    	
     	year=2020
-    	month=3
-    	issuedate=SystemUpdateModel.objects.filter(timestamp__year__gte=year,timestamp__month__gte=month,timestamp__year__lte=year,timestamp__month__lte=month).all()
-		
+    	month=4    	
+
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="None").count()
+    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="Error").count()
+    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="Office 2016 licensing").count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,orgname=orgid1).count()
+    	
+    	
+    	issuedate=SystemUpdateModel.objects.filter(date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,orgname=orgid1).values('date')
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
     	default_items=[issue1,issue2,issue3,issue4]
-    	data={"labels":labels, "default":default_items,"issuedate":list(issuedate)}
+    	data={"labels":labels, "default":default_items,"date":issuedate}
     	
     	
     	print(default_items)
@@ -266,10 +269,10 @@ class ChartDataIssues(APIView):
     	
 
     	
-    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues='None').count()
     	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
     	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
-    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),~Q(issues='No Error'),orgname=orgid1).count()
     	
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
@@ -296,7 +299,7 @@ def healthysys(request):
 
 	sysdata=SystemUpdateModel.objects.filter(orgname=orgid).all()
 
-	sysonissues=SystemUpdateModel.objects.filter(Q(ongoingissues='None'),Q(ongoingissues='')).count()
+	sysonissues=SystemUpdateModel.objects.filter(Q(ongoingissues='None'),Q(ongoingissues=''),orgname=orgid).count()
 
 	context={'healthysys':healthysys,'organizationobj':organizationobj,'systemmodel':systemmodel,'sysdata':sysdata,'syshealth':syshealth,'systotal':systotal,'sysonissues':sysonissues}
 	return render(request,'dashboard/healthysys.html',context)
@@ -339,5 +342,6 @@ class ChartDataHddspace(APIView):
     	default_items=[diskhealth1,diskhealth2]
     	data={"disklabels":labels, "diskdefault":default_items}
     	return Response(data)
+
 
 
