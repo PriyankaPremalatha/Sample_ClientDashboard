@@ -301,6 +301,7 @@ class UpdateSystem(View):
 		powerstatus1=request.GET.get('powerstatus',None)
 		issues1=request.GET.get('issues',None)
 		ongoingissues1=request.GET.get('ongoingissues',None)
+			
 		print("*************************************")
 		print(department1)
 		obj=SystemUpdateModel.objects.get(id=id1)

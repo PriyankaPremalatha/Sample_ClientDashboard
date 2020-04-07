@@ -211,10 +211,10 @@ class ChartData(APIView):
     	year=2020
     	month=4    	
 
-    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="None").count()
-    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="Error").count()
-    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,issues="Office 2016 licensing").count()
-    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,orgname=orgid1).count()
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
+    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
+    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
     	
     	
     	issuedate=SystemUpdateModel.objects.filter(date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,orgname=orgid1).values('date')

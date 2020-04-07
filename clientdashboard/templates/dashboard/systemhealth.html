@@ -915,70 +915,47 @@ function linechart()
 
 Highcharts.chart('linechartid', {
     chart: {
-        type: 'column'
+        type: 'line',
+       
+       
     },
     title: {
-        text: 'Month Wise Issues Chart'
+        text: 'Issues'
     },
     
-
     xAxis: {
-        categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec'
-        ],
-        crosshair: true
+        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24','25','26','27','28','29','30','31'],
+      
+
     },
     yAxis: {
-        min: 0,
         title: {
-            
+            text: 'Volumes(1000)'
         }
-    },
-   /* tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
     },
     plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
         }
-    },*/
+    },
     series: [{
         name: xu[0],
-        data: x[0]
-
+        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6,7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6,7.0, 6.9, 9.5, 14.5, 18.4, 21.5,21.6]
     }, {
-        name:xu[1],
-        data:x[1]
-
+        name: xu[1],
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8,3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8,3.9, 4.2, 5.7, 8.5, 11.9, 15.2,15.3]
     }, {
         name: xu[2],
-        data: x[2]
-
+        data:  [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8,3.9, 4.2, 5.7, 8.5, 11.9, 15.2,15.3,11.4,12.0,22.0,11,25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
     }, {
         name: xu[3],
-        data: x[3]
-
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8,3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 8.5, 11.9, 15.2,15.3,11.4,12.0,22.0,11,25.2, 26.5]
     }]
 });
 }
-
 {% endblock jquery %}
 </script>
 {% endblock javascript %}

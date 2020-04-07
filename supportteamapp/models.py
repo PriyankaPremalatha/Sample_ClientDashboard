@@ -43,7 +43,7 @@ class SystemUpdateModel(models.Model):
 	powerstatus=models.CharField(max_length=150)
 	issues=models.CharField(max_length=1000,blank=True,null=True)
 	ongoingissues=models.CharField(max_length=1000,blank=True,null=True)
-	date=models.DateField(auto_now=True)
+	date=models.DateField()
 	timestamp=models.DateTimeField(auto_now=True)
 
 	
