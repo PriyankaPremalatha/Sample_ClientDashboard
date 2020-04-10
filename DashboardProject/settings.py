@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     'supportteamapp',
     'rest_framework',
+    'admindashboard',
 ]
 
 MIDDLEWARE = [

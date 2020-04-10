@@ -2,7 +2,7 @@
 <html lang="en" >
 <head>
   {% load static %}
-  <title>Dashboard Chart</title>
+  <title>Support Team Dashboard Chart</title>
   <meta charset="UTF-8">
   
   <meta charset="utf-8">
@@ -38,7 +38,7 @@
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Charts">
-          <a class="nav-link" href="charts.html">
+          <a class="nav-link" href="#">
             <i class="fa fa-fw fa-area-chart"></i>
             <span class="nav-link-text">Status</span>
           </a>
@@ -64,7 +64,7 @@
             <i class="fa fa-fw fa-pencil"></i>
             <span class="nav-link-text">System</span>
           </a>
-             <ul class="dropdown-menu">
+             <ul class="dropdown-menu" >
               <li><a class="dropdown-item" href="#systeminfoModal" data-toggle="modal" data-target="#systeminfoModal">Add System</a></li>
 
               
@@ -599,7 +599,7 @@
       <!-- Example DataTables Card-->
       <div class="card mb-3" >
         <div class="card-header">
-          <i class="fa fa-table"></i> Data Table Example</div>
+          <i class="fa fa-table"></i>System Information</div>
         <div class="card-body">
           <div class="table-responsive" >
             <div id="showme">
@@ -742,10 +742,11 @@
             <div><button id="taskeventfile" class="btn btn-default" >TaskEvent Information</button></div>
             <!-- system information -->
             <div id="sysinfoid" style="display: none">
-              {{order}}
+              
               <form method="post" enctype="multipart/form-data" id="addsysfile" action="systemfile_upload/">
               {% csrf_token %}
               <div style="margin-top: 50px;px;">
+              <h6>Order of csv_file should be <b> Organization Name,System Name,Department,HDDspace,RAMsize,Windows status,Softwares,<br>Health Status,Powerstatus,Issues,Ongoing Issues,Date<b></h6>  
               <label style="font-family: Palatino Linotype;">Upload a System Information file</label><br>
                 <input type="file" name="file" class="form-control">
                 <p>Only acepts CSV files</p>
@@ -759,6 +760,7 @@
               <form method="post" enctype="multipart/form-data" action="onsitefile_upload/">
               {% csrf_token %}
               <div style="margin-top: 50px;px;">
+               <h6>Order of csv_file should be <b> Organization,Support User Name,Contact Person,  Purpose, Approved By, Work Date, Time In, Time Out,Work Done, Description, Product Name, Serial No, Pro_Approved By<b></h6>   
               <label style="font-family: Palatino Linotype;">Upload a Onsite Information file</label><br>
                 <input type="file" name="file" class="form-control">
                 <p>Only acepts CSV files</p>
@@ -842,24 +844,20 @@
                     <div class="form-group">
                         <select class="form-control" id="ramsize" name="ramsize">
                             <option selected>Select RAM size</option>
-                       <option value="32 GB">0.75 GB</option>
-                               <option value="32 GB">1 GB</option>
-                               <option value="32 GB">2 GB</option>
-                               <option value="32 GB">4 GB</option> 
-                               <option value="32 GB">8 GB</option> 
-                               <option value="32 GB">16 GB</option> 
-                               <option value="32 GB">32 GB</option>
-                                <option value="64 GB">64 GB</option>
-                                <option value="128 GB">128 GB</option>
-                                <option value="256 GB">256 GB</option>
-                                <option value="512 GB">512 GB</option>
-                                <option value="1024 GB">1024 GB</option>
-                                <option value="2048 GB">2048 GB</option>
-                                <option value="4096 GB">4096 GB</option>
-                                <option value="8192 GB">8192 GB</option>
-                                <option value="16384 GB">16384 GB</option>
-                                <option value="32767 GB">32767 GB</option>
-
+                       
+                             <option value="1 GB">1 GB</option>
+                           <option value="2 GB">2 GB</option>
+                           <option value="4 GB">4 GB</option> 
+                           <option value="8 GB">8 GB</option> 
+                           <option value="16 GB">16 GB</option> 
+                           <option value="32 GB">32 GB</option>
+                            <option value="64 GB">64 GB</option>
+                            <option value="1 TB">1 TB</option>
+                            <option value="2 TB">2 TB</option>
+                            <option value="4 TB">4 TB</option>
+                            <option value="8 TB">8 TB</option>
+                            <option value="16 TB">16 TB</option>
+                            <option value="32 TB">32 TB</option>
                       </select>
 
                     </div>
@@ -916,7 +914,11 @@
                     </div>
                 
                         
-              
+                  
+                    <div class="form-group">
+                        <input type="date" name="date" placeholder="Choose Date"class="form-control">
+
+                    </div>
                
 
 
@@ -1127,24 +1129,20 @@
                       <label>RAM Size</label>
                         <select class="form-control" id="formramsize" name="form-ramsize">
                             <option selected>Select RAM size</option>
-                       <option value="32 GB">0.75 GB</option>
-                               <option value="32 GB">1 GB</option>
-                               <option value="32 GB">2 GB</option>
-                               <option value="32 GB">4 GB</option> 
-                               <option value="32 GB">8 GB</option> 
-                               <option value="32 GB">16 GB</option> 
-                               <option value="32 GB">32 GB</option>
-                                <option value="64 GB">64 GB</option>
-                                <option value="128 GB">128 GB</option>
-                                <option value="256 GB">256 GB</option>
-                                <option value="512 GB">512 GB</option>
-                                <option value="1024 GB">1024 GB</option>
-                                <option value="2048 GB">2048 GB</option>
-                                <option value="4096 GB">4096 GB</option>
-                                <option value="8192 GB">8192 GB</option>
-                                <option value="16384 GB">16384 GB</option>
-                                <option value="32767 GB">32767 GB</option>
-
+                       
+                              <option value="1 GB">1 GB</option>
+                           <option value="2 GB">2 GB</option>
+                           <option value="4 GB">4 GB</option> 
+                           <option value="8 GB">8 GB</option> 
+                           <option value="16 GB">16 GB</option> 
+                           <option value="32 GB">32 GB</option>
+                            <option value="64 GB">64 GB</option>
+                            <option value="1 TB">1 TB</option>
+                            <option value="2 TB">2 TB</option>
+                            <option value="4 TB">4 TB</option>
+                            <option value="8 TB">8 TB</option>
+                            <option value="16 TB">16 TB</option>
+                            <option value="32 TB">32 TB</option>
                       </select>
 
                     </div>
@@ -1330,7 +1328,7 @@
 
         $("#addOrg").submit(function(){
             
-            var a="hi"
+            
 
             var orgnameInput=$('input[name="organizationname"]').val().trim();
             var orgmailInput=$('input[name="organizationmail"]').val().trim();
@@ -1380,7 +1378,7 @@
 
         $("#addsystem").submit(function(){
 
-              alert("hi");
+            
               var element=document.getElementById("orgnameid");
               var orgname=element.options[element.selectedIndex].value;
               
@@ -1410,7 +1408,7 @@
 
               var ongoingissues=$('textarea[name="ongoingissues"]').val().trim();
 
-              
+              var date=$('input[name="date"]').val().trim();
 
               
               if(sysname=="" && orgname=="Choose Organization" && diskspace=="Disk Space" && ramsize=="Select RAM size" && winupdate=="Windows Update Status" && powerstatus=="Power Status" && syshealth=="Health Status")
@@ -1439,6 +1437,7 @@
                                   'powerstatus':powerstatus,
                                   'issues':issues,
                                   'ongoingissues':ongoingissues,
+                                  'date':date,
                                   
                           },
                           dataType:'json',
@@ -1471,7 +1470,7 @@
 
         $("#updateSystem").submit(function(){
 
-              alert("hi");
+            
              
               var sysid=$('input[name="form-Id"]').val().trim();
               var sysname=$('input[name="form-sysname"]').val().trim();
@@ -1662,6 +1661,15 @@ $(document).ready(function(){
   });
 
 });
+
+ $('.dropdown').on('show.bs.dropdown', function(e){
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+    });
+
+    // ADD SLIDEUP ANIMATION TO DROPDOWN //
+    $('.dropdown').on('hide.bs.dropdown', function(e){
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+    });
 /*
 $(document).ready(function () {
   $('#tab').DataTable();

@@ -20,6 +20,7 @@ from django.db.models.functions import TruncMonth as Month, TruncYear as Year
 
 from django.template.loader import get_template
 from django.http import HttpResponse
+import datetime 
 # Create your views here.
 def registerform(request):
 	if request.method=="POST":
@@ -208,29 +209,37 @@ class ChartData(APIView):
     	org1=OrgInsertion.objects.get(organizationname=sysorgname)
     	orgid1=org1.id
     	
-    	year=2020
-    	month=4    	
-
-    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,issues="None").count()
-    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Error").count()
-    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,issues="Office 2016 licensing").count()
-    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1).count()
     	
-    	
-    	issuedate=SystemUpdateModel.objects.filter(date__year__gte=year,date__month__gte=month,date__year__lte=year,date__month__lte=month,orgname=orgid1).values('date')
+    	start_date = datetime.date(2020, 3, 31)
+    	end_date = datetime.date(2020, 4, 30)
+    	result=end_date-start_date
+    	issue_array1=[]
+    	issue_array2=[]
+    	issue_array3=[]
+    	issue_array4=[]
+    	for i in range(result.days):
+    		start_date += datetime.timedelta(days=1)
+    		issue1=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="None").count()
+    		issue2=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="Error").count()
+    		issue3=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="Office 2016 licensing").count()
+    		issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1,date=start_date).count()
+    		issue_array1.append(issue1)
+    		issue_array2.append(issue2)
+    		issue_array3.append(issue3)
+    		issue_array4.append(issue4)
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
-    	default_items=[issue1,issue2,issue3,issue4]
-    	data={"labels":labels, "default":default_items,"date":issuedate}
     	
-    	
-    	print(default_items)
+    	data={"labels":labels,'issue_array1':issue_array1,'issue_array2':issue_array2,'issue_array3':issue_array3,'issue_array4':issue_array4}
+    	print(issue_array1)
+    
     	return Response(data)    
 
 
 def status(request):
-	
-	return render(request,'dashboard/status.html')
+	organizationobj=OrgInsertion.objects.all()
+		
+	return render(request,'dashboard/status.html',{"organizationobj":organizationobj})
 
 
 class ChartDataDepartment(APIView):

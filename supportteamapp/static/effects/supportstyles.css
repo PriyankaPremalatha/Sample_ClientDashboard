@@ -702,3 +702,14 @@ margin-top:-35px; /* aligns top of sub menu with top of list item */
 #tab th{
    white-space: nowrap;
 }
+.dropdown-menu {
+    width: 250px !important;
+  background-color:white;
+  font-size: 17px;
+ font-family: Arial, Helvetica, sans-serif;
+    
+}
+.dropdown-menu :hover
+{
+  background:#D3D3D3;
+}

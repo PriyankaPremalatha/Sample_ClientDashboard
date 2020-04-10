@@ -80,11 +80,8 @@ def onsite(request):
 def supportindex(request):
 	
 	organizationobj=OrgInsertion.objects.all()
-
-	
 	context={'organizationobj':organizationobj}
-
-	return render(request,'dashboard/supportindex.html',context=context)
+	return render(request,'dashboard/supportindex.html',context)
 
 
 
@@ -137,6 +134,7 @@ class SystemInfoInsert(View):
 		powerstatus1=request.GET.get('powerstatus',None)
 		issues1=request.GET.get('issues',None)
 		ongoingissues1=request.GET.get('ongoingissues',None)
+		date1=request.GET.get('date',None)
 
 		print(orgname1)
 		obj=SystemUpdateModel.objects.create(
@@ -153,6 +151,7 @@ class SystemInfoInsert(View):
 			powerstatus=powerstatus1,
 			issues=issues1,
 			ongoingissues=ongoingissues1,
+			date=date1,
 
 			)
 		print(obj)
@@ -168,6 +167,7 @@ class SystemInfoInsert(View):
 				'powerstatus':obj.powerstatus,
 				'issues':obj.issues,
 				'ongoingissues':obj.ongoingissues,
+				'date':obj.date,
 					
 					
 				
@@ -212,6 +212,7 @@ def systemfile_upload(request):
 					powerstatus=column[8],
 					issues=column[9],
 					ongoingissues=column[10],
+					date=column[11],
 				)
 			
 
