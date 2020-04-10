@@ -209,9 +209,19 @@ class ChartData(APIView):
     	org1=OrgInsertion.objects.get(organizationname=sysorgname)
     	orgid1=org1.id
     	
-    	
-    	start_date = datetime.date(2020, 3, 31)
-    	end_date = datetime.date(2020, 4, 30)
+    	fromdate=request.GET.get('fromdate',None)
+    	todate=request.GET.get('todate',None)
+
+    	date_str=fromdate
+    	day,month,year=date_str.split(',')
+    	print(day, month, year)
+
+    	date_str1=todate
+    	day,month,year=date_str1.split(',')
+    	print(day, month, year)
+
+    	start_date = datetime.date(year,month,day)
+    	end_date = datetime.date(year,month,day)
     	result=end_date-start_date
     	issue_array1=[]
     	issue_array2=[]
@@ -261,9 +271,7 @@ class ChartDataDepartment(APIView):
     	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
     	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
     	data={"labels":labels, "default":default_items,'sysdepartment':sysdepartment}
-    	print(sysdepartment)
-    	print(syshealth1,syshealth2,syshealth3,syshealth4)
-    	print(default_items)
+    	
     	return Response(data)
 
 

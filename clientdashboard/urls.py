@@ -29,5 +29,6 @@ urlpatterns=[
 	path('api/chart/data/hddspace/',views.ChartDataHddspace.as_view(),name='chart-data-hddspace'),
 	
 	
+	
 
 ]
