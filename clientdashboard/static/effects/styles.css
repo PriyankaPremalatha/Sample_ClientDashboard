@@ -10281,6 +10281,8 @@ body {
    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 100% 100%;
     animation: gradient 15s ease infinite;*/
+    /*background:#2196F3;*/
+     background:linear-gradient(to bottom,#00264D 0%, #02386E  100%);
     font-size: 17px;
 }
 
@@ -10294,4 +10296,109 @@ body {
     100% {
         background-position: 0% 50%;
     }
+}
+
+
+.inpstyle
+{
+  border-radius: 10px;
+  
+}
+.modal-header
+{
+  height: 80px;
+  border-radius: 5px;
+  background:linear-gradient(to bottom, #5433FF  0%,  #20BDFF 100%);
+  color: white;
+
+}
+.modal-title
+{
+  font-size: 30px;
+  text-align: center;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+ /* background-color: #111; /* Black*/
+ /*background:linear-gradient(to bottom,#20BDFF 0%, #5433FF  100%);*/
+/*background: linear-gradient(to bottom, #536976, #292E49); */
+background:linear-gradient(to right,#02386E  100%,#00264D 0%);
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav :hover {
+  color: grey;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 20px;
+  margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.navbg
+{
+  /*background: linear-gradient(to bottom, #292E49, #536976);*/ 
+  background:linear-gradient(to bottom,#00264D 0%, #02386E  100%);
+  
+}
+
+img {
+
+  margin-left:30px;
+  border-radius: 50%;
+width: 100px;
+height: 100px;
+
+}
+hr.solid {
+  border-top: 1px solid #bbb;
+}
+.c_icon
+{
+  font-size: 25px;
+  color: white;
+
+}
+.c_foot
+{
+  background:#BBDEFB;
+  font-size: 18px;
+
 }

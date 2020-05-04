@@ -115,3 +115,13 @@ class SystemInfoForm(forms.ModelForm):
 	# def __init__(self,*args,**kwargs):
 	# 	super().__init__(*args,*kwargs)
 	# 	self.fields['windowsuptodate'].queryset=SystemInfo.objects.none()
+
+# class UserForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ('first_name', 'last_name', 'email')
+
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = Profile
+#         fields ='__all__'

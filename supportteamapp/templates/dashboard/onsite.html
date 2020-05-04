@@ -19,7 +19,7 @@
       <div class="panel-body">
         <form  action="" method="POST" class="col-sm-12" autocomplete="off" id="addinfo">
           {% csrf_token %}
-            
+                          
                    <div class="form-group">
                     <label>Organization</label>
                     <div ><!-- <input type="text" name="name" autocomplete="off" class="form-control"> -->{{form.organization}}</div>
@@ -70,6 +70,7 @@
                     <label>Description</label>
                     <div ><!-- <textarea type="text" name="description" autocomplete="off" class="form-control" ></textarea> -->{{form.description}}</div>
                   </div>
+
 
                   <div class="form-group">
                     <label><input type="checkbox" id="check1">&nbsp;&nbsp;Product details</label>

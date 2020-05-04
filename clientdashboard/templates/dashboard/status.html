@@ -11,15 +11,15 @@
         
         <link href="{% static 'effects/styles.css' %}" rel="stylesheet" />
 
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <link href="{% static '/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" crossorigin="anonymous" />
 
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/all.min.js' %}" crossorigin="anonymous"></script>
 
 
         <link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}" type="text/css" media="all" />
 
-        <script crossorigin="anonymous" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+        <script crossorigin="anonymous" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 
         <script type="text/javascript" src="{% static 'js/moment-with-locales.min.js' %}"></script>
 
@@ -27,12 +27,43 @@
 
         <script type="text/javascript" src="{% static 'js/demo.js' %}"></script>
 
-        <script crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" src="{% static 'js/popper.min.js' %}"></script>
+        <script crossorigin="anonymous"  src="{% static 'js/popper.min.js' %}"></script>
 
     </head>
     <body class="sb-nav-fixed">
         {% block content %}
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbg">
+            <!-- start of sidenav -->
+            <div id="mySidenav" class="sidenav navbar-dark bg-dark">
+                <a href="">
+                  <img src="{% static 'effects/image/face1.jpeg' %}"  />
+                </a>
+                  <hr class="solid">
+                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fas fa-arrow-left"></i></a>
+                  <a class="nav-link active" href="{% url 'systemhealth' %}"
+                                ><i class="fas fa-tachometer-alt"></i>
+                                Dashboard</a>
+
+                             <a class="nav-link active" href="{% url 'status' %}"
+                                ><i class="fas fa-chart-area"></i>
+                                Status</a>   
+                           
+                            <a class="nav-link active" href="#t1" id="h1"><i class="fas fa-desktop"></i>
+                                System Information</a>
+
+
+                            <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
+                                ><i class="fas fa-pen"></i>
+                                New System</a>
+
+                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
+                                ><i class="fas fa-file"></i>
+                                Import File</a>
+
+</div>
+<span style="font-size:25px;cursor:pointer; color: white; margin-left: 20px;" onclick="openNav()">&#9776;&nbsp;Dashboard</span>
+<!-- end of sidenav -->
+
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -43,10 +74,16 @@
                 </div>
             </form>
             <!-- Navbar-->
-             <div class="nav-item">
-              <a class="nav-link"  style="color: white;">
-                {{request.user.username}}</a>
+              <div class="nav-item dropdown" data-toggle="tooltip" data-placement="right" >
+              <a class="nav-link" href="" style="color: white;"data-toggle="dropdown" data-target="">
+                <span class="nav-link-text">{{request.user.username}}</span></a>
+                <ul class="dropdown-menu" >
+                      <li><a class="dropdown-item" href="{% url 'profile' %}">View Profile&nbsp;&nbsp;<i class="fas fa-user-circle"></i></a></li>
+                      <div class="dropdown-divider" style="border-color:grey;"></div>
+                      <li><a class="dropdown-item" href="#exampleModal" data-toggle="modal" data-target="#exampleModal">Log Out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
             </div>
+
 
              <div class="nav-item ">
               <a class="nav-link" href="#exampleModal" data-toggle="modal" data-target="#exampleModal" style="color: white;"><i class="fas fa-user"></i>&nbsp;Logout</a>
@@ -55,88 +92,9 @@
 
             
         </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            
-                            <a class="nav-link active" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard</a>
-
-                             <a class="nav-link active" href=""
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Status</a>   
-                           
-                            <a class="nav-link active" href="{% url 'systemhealth' %}" id="h1"><div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div>
-                                System Information</a>
-
-
-                            <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
-                                New System Requirement</a>
-
-                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                Import File</a>
-                            <!-- <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                Event Viewer</a>
-
-                             <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
-                                PDrive Access</a>
-                              <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-hdd"></i></div>
-                                Hard Disk</a> -->
-                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav>
-                            </div> -->
-                           <!--  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a> -->
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
-                                        >Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
-                                        >Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <!-- <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts</a
-                            ><a class="nav-link" href="tables.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables</a
-                            >
-                        </div>
-                    </div>
-                     -->
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <main>
+        
+            <div id="main">
+                <main style="margin-top: 60px;">
                     <div class="container-fluid">
                         
                         <ol class="breadcrumb mb-4" style="margin-top: 20px;">
@@ -211,65 +169,82 @@
                            
                              <div class="col-xl-6">
                                 <div class="card mb-4" id="dp" style="display: none;">
-                                    <div class="card-header"><i class="fas fa-chart-bar mr-1"></i>Department Health Status</div>
+                                    <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>Department Health Status</div>
                                     <div class="card-body" id="pie" width="100%" height="40"></div>
                                 </div>
                             </div>
 
-                             
+                            <div class="col-xl-6">
+                                <div class="card mb-4" id="dpissues" style="display: none;">
+                                    <div class="card-header"><i class="fas fa-chart-pie mr-1"></i>Department Issues Status</div>
+                                    <div class="card-body" id="issuedep" width="100%" height="40"></div>
+                                </div>
+                            </div>
                         </div>
                      <div class="row">
-
                         <div class="col-sm-4">
                              <div class="card">
                                 <div class="card-header"><i class="fas fa-chart-line mr-1"></i>Issues Chart</div>
                                 <div class="card-body">
                                   <form action="" id="datechartform">
                                     <div class="form-group">
-                                        <label for="id_end_time">From Date</label>
-                                        <div class="input-group date" id="id_4">
-                                            <input type="text" placeholder="Select Frome Date" class="form-control" name="fromdate" required/>
+                                        <!-- <label for="id_end_time">From Date</label> -->
+                                        <div class="input-group">
+                                            <!-- <input type="text" placeholder="Select Frome Date" class="form-control" name="fromdate" required/>
                                             <div class="input-group-addon input-group-append">
                                                 <div class="input-group-text">
                                                     <i class="fas fa-calendar-alt  fa-calendar-alt"></i>
                                                 </div>
+                                            </div> -->
+                                            <div style="width: 400px;">
+                                               <select class="custom-select" id="monthselect" name="department">
+                                                    <option selected> Choose month</option>
+                                                    <option value="1">January</option>
+                                                    <option value="2">Febraury</option>
+                                                    <option value="3">March</option>
+                                                    <option value="4">April</option>
+                                                         
+                                                </select>
                                             </div>
+
                                         </div>
                                     </div>       
 
                                      <div class="form-group">
-                                        <label for="id_end_time">To Date</label>
-                                        <div class="input-group date" id="id_5">
-                                            <input type="text" placeholder="Select To Date" class="form-control" name="todate" required/>
-                                            <div class="input-group-addon input-group-append">
-                                                <div class="input-group-text">
-                                                    <i class="fas fa-calendar-alt  fa-calendar-alt"></i>
-                                                </div>
-                                            </div>
+                                        <!-- <label for="id_end_time">To Date</label> -->
+                                        <div class="input-group">
+                                            
+                                        <div style="width: 400px;">
+                                         <select class="custom-select" id="yearselect" name="department">
+                                             <option selected> Choose year</option>
+                                             <option value="2019">2019</option>
+                                             <option value="2020">2020</option>
+                                                   
+                                          </select>
+                                      </div>
                                         </div>
                                     </div>  
-                                        <div><button type="submit" class="btn btn-primary" style="font-size: 20px;">Submit</button></div> 
+                                        <div><button id="btnlinechart" class="btn btn-primary" style="font-size: 20px;">Submit</button></div> 
                                    </form>                          
                                 </div>
                              </div>   
                         </div> 
-
                         <div class="col-sm-8">
-                             <div class="card">
+                        
+                             <div class="card" id="linechartcard" style="display: none;">
                                 <div class="card-header"><i class="fas fa-chart-line mr-1"></i>Monthwise Daily Issues</div>
                                 <div class="card-body">
                                 
-                                <div id="linechartid"></div>
+                                <div id="linechartid1"></div>
                                 </div>
-                             </div>   
-                        </div> 
-                     </div>    
-
-
-                
-
+                             </div>        
+                    </div>
+                     </div>      
+        
+  
 
                 </main>
+
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid">
                         <div class="d-flex align-items-center justify-content-between small">
@@ -285,13 +260,13 @@
                
     
 
-                <!-- Logout Modal-->
+    <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-size: 40px;color: white;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -305,14 +280,13 @@
       </div>
     </div>
 
-<!-- Import File -->
-             
+<!-- Import File -->         
     <div class="modal fade" id="importfileModal" tabindex="-1" role="dialog" aria-labelledby="importfileModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="importfileModalLabel">Choose File to Import</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-size: 40px;color: white;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -325,7 +299,7 @@
               {% csrf_token %}
               <div style="margin-top: 30px;px;" align="center">
               <label style="font-family: Palatino Linotype;">Upload a System Requirement file</label><br>
-                <input type="file" name="file" class="form-control">
+                <input type="file" name="file" class="form-control inpstyle">
                 <p>Only acepts CSV files</p>
                 <button class="btn btn-info" type="submit">Upload File</button>
                 </div>
@@ -343,17 +317,17 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="systemreqModalLabel">System Requirements</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
+            <div class="modal-title" id="systemreqModalLabel">System Requirements</div>
+            <button class="close" style="font-size: 40px;color: white;" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" >×</span>
             </button>
           </div>
-          <form action="" id="addsystemreq">
+          <form action="" id="addsystemreq" >
             {% csrf_token %}
           <div class="modal-body">
                     <div class="form-group">
-                        <select class="form-control" id="reqpname" name="reqpname">
-                      <option selected>Choose Organization</option>
+                        <select class="form-control inpstyle" id="reqpname" name="reqpname" autofocus="on">
+                      <option >Choose Organization</option>
                       {% if organizationobj %}
                         {% for organizationobjs in organizationobj %}
                         
@@ -366,47 +340,54 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="pname" placeholder="Enter person name who need system" class="form-control">
+                        <input type="text" name="pname" placeholder="Enter person name who need system" class="form-control inpstyle" autocomplete="off">
                     </div>
 
              
 
                     <div class="form-group">
-                     <select class="custom-select" id="hddselect" name="disktype">
-                        <option selected>Choose disk type</option>
+                     <select class="custom-select inpstyle" id="hddselect" name="disktype">
+                        <option >Choose disk type</option>
                         <option value="Standard HDD"> Standard HDD</option>
                         <option value="Standard HDD">Standard SSD</option>
                        
                       </select>
+                      
                     </div>
-
+                    <div class="row">
+                    <div class="col-sm-6">
                     <div class="form-group">
-                        <select class="custom-select" id="diskselect" name="disksize">
-                       <option selected>Choose disk size</option>
-                        <option value="32 GB">32 GB</option>
-                        <option value="64 GB">64 GB</option>
-                        <option value="128 GB">128 GB</option>
-                        <option value="256 GB">256 GB</option>
-                        <option value="512 GB">512 GB</option>
-                        <option value="1024 GB">1024 GB</option>
-                        <option value="2048 GB">2048 GB</option>
-                        <option value="4096 GB">4096 GB</option>
-                        <option value="8192 GB">8192 GB</option>
-                        <option value="16384 GB">16384 GB</option>
-                        <option value="32767 GB">32767 GB</option>
+                        <select class="custom-select inpstyle" id="diskselect" name="disksize">
+                       <option >Choose disk size</option>
+                         <option value="1 GB">1 GB</option>
+                           <option value="2 GB">2 GB</option>
+                           <option value="4 GB">4 GB</option> 
+                           <option value="8 GB">8 GB</option> 
+                           <option value="16 GB">16 GB</option> 
+                           <option value="32 GB">32 GB</option>
+                            <option value="64 GB">64 GB</option>
+                            <option value="1 TB">1 TB</option>
+                            <option value="2 TB">2 TB</option>
+                            <option value="4 TB">4 TB</option>
+                            <option value="8 TB">8 TB</option>
+                            <option value="16 TB">16 TB</option>
+                            <option value="32 TB">32 TB</option>
 
 
 
                       </select>
                     </div>
-
+                    </div>    
+                    <div class="col-sm-6">
                     <div class="form-group">
-                    <input type="number" name="ndisk" class="form-control" placeholder="No. of disk ">
+                    <input type="number" name="ndisk" class="form-control inpstyle" placeholder="No. of disk ">
+                    </div>
+                    </div>
                     </div>
 
                     <div class="form-group">
-                        <select class="custom-select" id="coreselect" name="cpucore">
-                            <option selected>Choose CPU Core</option>
+                        <select class="custom-select inpstyle" id="coreselect" name="cpucore">
+                            <option >Choose CPU Core</option>
                             <option value="1 Core">1 Core</option>
                             <option value="2 Cores">2 Cores</option>
                             <option value="4 Cores">4 Cores</option>
@@ -418,21 +399,22 @@
                     </div>
 
                      <div class="form-group">
-                                            <select class="custom-select" id="ramselect" name="ramsize">
-                            <option selected>Choose RAM size</option>
-                          <option value="32 GB">1 GB</option>
-                           <option value="32 GB">2 GB</option>
-                           <option value="32 GB">4 GB</option> 
-                           <option value="32 GB">8 GB</option> 
-                           <option value="32 GB">16 GB</option> 
+                                            <select class="custom-select inpstyle" id="ramselect" name="ramsize">
+                           <option >Choose RAM size</option>
+                           
+                           <option value="1 GB">1 GB</option>
+                           <option value="2 GB">2 GB</option>
+                           <option value="4 GB">4 GB</option> 
+                           <option value="8 GB">8 GB</option> 
+                           <option value="16 GB">16 GB</option> 
                            <option value="32 GB">32 GB</option>
                             <option value="64 GB">64 GB</option>
-                            <option value="1024 GB">1 TB</option>
-                            <option value="2048 GB">2 TB</option>
-                            <option value="4096 GB">4 TB</option>
-                            <option value="8192 GB">8 TB</option>
-                            <option value="16384 GB">16 TB</option>
-                            <option value="32767 GB">32 TB</option>
+                            <option value="1 TB">1 TB</option>
+                            <option value="2 TB">2 TB</option>
+                            <option value="4 TB">4 TB</option>
+                            <option value="8 TB">8 TB</option>
+                            <option value="16 TB">16 TB</option>
+                            <option value="32 TB">32 TB</option>
 
 
                           </select>
@@ -440,16 +422,10 @@
                     </div>
 
                      <div class="form-group">
-                     <input type="text" name="nmonitors" class="form-control" placeholder="No.of monitors">
+                     <input type="text" name="nmonitors" class="form-control inpstyle" placeholder="No.of monitors">
                     </div>
 
                     
-                
-
-              
-               
-
-
           </div>
           <div class="modal-footer " >
             
@@ -461,23 +437,25 @@
       </div>
     </div>
 
+
 </div>
  </div>
         {% endblock  %}   
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/jquery-3.4.1.min.js' %}" crossorigin="anonymous"></script>
+         <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'js/scripts.js' %}"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/Chart.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'demo/chart-bar-demo.js' %}"></script>
         <script src="{% static 'demo/chart-pie-demo.js' %}"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/jquery.dataTables.min.js' %}" crossorigin="anonymous"></script>
+        <script src="{% static 'js/dataTables.bootstrap4.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'demo/datatables-demo.js' %}"></script>
 
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+        <script src="{% static 'js/highcharts.js' %}"></script>
+        <script src="{% static 'js/highcharts-3d.js' %}"></script>
+
         
 
 {% block javascript %}
@@ -513,10 +491,11 @@
 
 
 
-            if(pname=="" && reqpname=="" && disktype=="Choose disk type" && ramsize=="Choose RAM size" && cpucore=="Choose CPU Core")
+            if(pname=="" || reqpname=="Choose Organization" || disktype=="Choose disk type" || disksize=="Choose disk size" || ndisk=="" || cpucore=="Choose CPU Core" ||  ramsize=="Choose RAM size")
               {
 
                 alert("Please Enter missing fields");
+                $('#systemreqModal').modal('show');
                 
               }
 
@@ -594,6 +573,7 @@ $(document).ready(function(){
 
         alert(department);
         $('#dp').show();
+        $('#dpissues').show();
         var endpoint='/api/chart/data/department/'
         /*var defaultdata1=[]
         var labels1= [];*/
@@ -608,7 +588,11 @@ $(document).ready(function(){
             labels1=data.labels
             defaultdata1=data.default
             depname=data.sysdepartment
+
+            deplabels=data.deplabels
+            depissues=data.depissues
             depsetchart()
+            depissuesetchart()
           },
           error:function(error_data){
 
@@ -624,39 +608,99 @@ $(document).ready(function(){
 });
 
 
-function setchart1(){
-var ctx = document.getElementById('myChart1').getContext('2d');
-    var myChart1 = new Chart(ctx, {
+function depsetchart()
+{
+    var x=new Array(4);
+    var xu=new Array(4);
+    for(var i=0;i<x.length;i++){
+     xu[i]=labels1[i];
+     x[i]=[labels1[i],defaultdata1[i]];}
+     console.log(x)
+     console.log(xu)
+
+    Highcharts.chart('pie', {
+    chart: {
         type: 'pie',
-        data: {
-            labels:labels1,
-            datasets: [{
-                label: '# of Votes',
-                data: defaultdata1,
-                 backgroundColor: [
-                'rgba(255, 255, 175, 0.2)',
-                'rgba(50, 102, 235, 0.2)',
-                'rgba(10, 206, 186, 0.2)',
-                'rgba(100, 80, 155,0.2)',
-                'rgba(200, 200, 100, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-            }]
+        options3d: {
+            enabled: true,
+            alpha: 45
         }
-
-    })
-
+    },
+     credits: {
+    enabled: false
+        },
+    title: {
+        text:depname+"    "+'-'+" "+'Health Status'
+    },
+   
+    plotOptions: {
+        pie: {
+            innerSize: 50,
+            depth: 65,
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '{point.name} ({point.percentage:.1f}%)',
+                connectorWidth: 2,
+            }
+        }
+    },
+    colors:['#3b5998', '#d34836', '#8a3ab9', '#0077B5', '#0084b4', '#bb0000'],
+    series: [{
+        name: 'Status',
+        data: x,
+    }],
+    tooltip:{
+        useHTML: true,  
+         headerFormat: '<h6>{point.key}</h6>',
+         pointFormat: '<h6>{point.percentage:.1f} {series.name} </h6>',
+    }
+});
 }
 
+/*start of department wise issue chart*/
+function depissuesetchart()
+{
+
+var x1=new Array(4);
+var xu1=new Array(4);
+for(var i=0;i<x1.length;i++){
+ xu1[i]=deplabels[i];
+ x1[i]=[deplabels[i],depissues[i]];}
+ console.log(x1)
+ console.log(xu1)
+
+    Highcharts.chart('issuedep', {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text:depname+"    "+'-'+" "+'Issues Status'
+  },
+  credits: {
+    enabled: false
+        },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    }
+  },
+  colors:['#82E0AA  ', '#F7DC6F  ', '#D2B4DE ', '#23C2CC ', '#0084b4', '#bb0000'],
+  series: [{
+    name: 'Status',
+    data: x1
+  }]
+});
+}
+ /*end of department wise issue chart*/
+
+/*end of department wise chart*/
 
 
 /*chart for issues*/
@@ -681,6 +725,47 @@ $.ajax({
 
 
 });
+
+function issuesetchart()
+{
+
+var x=new Array(4);
+var xu=new Array(4);
+for(var i=0;i<x.length;i++){
+ xu[i]=labelss[i];
+ x[i]=[labelss[i],defaultdatas[i]];}
+ console.log(x)
+ console.log(xu)
+
+    Highcharts.chart('container1', {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text: 'Issues Status'
+  },
+  credits: {
+    enabled: false
+        },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    }
+  },
+  colors:['#D5F5E3', '#7FB3D5 ', '#F08080', '#2874A6', '#0084b4', '#bb0000'],
+  series: [{
+    name: 'Status',
+    data: x
+  }]
+});
+}
+ /*end of issue chart*/
+
 
 
 /*Highcharts sample*/
@@ -761,109 +846,29 @@ for(var i=0;i<x.length;i++){
 });
 }
 
-
-function issuesetchart()
-{
-
-var x=new Array(4);
-var xu=new Array(4);
-for(var i=0;i<x.length;i++){
- xu[i]=labelss[i];
- x[i]=[labelss[i],defaultdatas[i]];}
- console.log(x)
- console.log(xu)
-
-    Highcharts.chart('container1', {
-  chart: {
-    type: 'pie',
-    options3d: {
-      enabled: true,
-      alpha: 45
-    }
-  },
-  title: {
-    text: 'Issues Status'
-  },
-  credits: {
-    enabled: false
-        },
-  plotOptions: {
-    pie: {
-      innerSize: 100,
-      depth: 45
-    }
-  },
-  colors:['#D5F5E3', '#7FB3D5 ', '#F08080', '#2874A6', '#0084b4', '#bb0000'],
-  series: [{
-    name: 'Status',
-    data: x
-  }]
-});
-}
+/*end of health chart*/
 
 
-function depsetchart()
-{
-    var x=new Array(4);
-    var xu=new Array(4);
-    for(var i=0;i<x.length;i++){
-     xu[i]=labels1[i];
-     x[i]=[labels1[i],defaultdata1[i]];}
-     console.log(x)
-     console.log(xu)
 
-    Highcharts.chart('pie', {
-    chart: {
-        type: 'pie',
-        options3d: {
-            enabled: true,
-            alpha: 45
-        }
-    },
-     credits: {
-    enabled: false
-        },
-    title: {
-        text:depname+"    "+'-'+" "+'Health Status'
-    },
-   
-    plotOptions: {
-        pie: {
-            innerSize: 50,
-            depth: 65,
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-                enabled: true,
-                format: '{point.name} ({point.percentage:.1f}%)',
-                connectorWidth: 2,
-            }
-        }
-    },
-    colors:['#3b5998', '#d34836', '#8a3ab9', '#0077B5', '#0084b4', '#bb0000'],
-    series: [{
-        name: 'Status',
-        data: x,
-    }],
-    tooltip:{
-        useHTML: true,  
-         headerFormat: '<h6>{point.key}</h6>',
-         pointFormat: '<h6>{point.percentage:.1f} {series.name} </h6>',
-    }
-});
-}
+/* start of line chart*/
 
-
-/*line chart*/
- $("#datechartform").submit(function(){
+ /*$("#btnchart").click(function(e){
         
+        e.preventDefault();
         var fromdate=$('input[name="fromdate"]').val()
         var todate=$('input[name="todate"]').val()
-        alert(fromdate);
-        alert(todate);
+
+        if( Date.parse(fromdate) > Date.parse(todate))
+        {
+            alert("From Date should be greater than To Date")
+        }    
+        
+        else
+        {
+                   
         var endpoint='/api/chart/data/'
 
-        var labels= [];
+       
         $.ajax({
 
           method:"GET",
@@ -875,8 +880,10 @@ function depsetchart()
 
 
                 },
+
           success:function(data){
-            labels=data.labels
+
+            labels1=data.labels
             
             issue_array1=data.issue_array1
             issue_array2=data.issue_array2
@@ -894,12 +901,13 @@ function depsetchart()
 
 
         });
+    }
 
     });
 function linechart()
 {
 
-    
+    $('#linechartcard').show();  
     var xu=new Array(4);
     var months=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24','25','26','27','28','29','30','31']
     var data1=issue_array1
@@ -908,8 +916,9 @@ function linechart()
     var data3=issue_array3
     var data4=issue_array4
 
+    var lab=labels1
     for(var i=0;i<xu.length;i++){
-     xu[i]=labels[i];}
+     xu[i]=lab[i];alert(xu[i])}
     
 
 Highcharts.chart('linechartid', {
@@ -959,9 +968,142 @@ Highcharts.chart('linechartid', {
     }]
 });
 }
+*/
+/*end of line chart for month wise*/
 
+//sidenav 
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}
 
  
+ $("#btnlinechart").click(function(e){
+        
+        e.preventDefault();
+         var element=document.getElementById("monthselect");
+               var monthdate=element.options[element.selectedIndex].value;
+
+              var element=document.getElementById("yearselect");
+               var yeardate=element.options[element.selectedIndex].value;
+               
+                   
+        var endpoint='/api/monthyear/data/'
+
+  if(monthdate=='Choose month' || yeardate=='Choose year')
+  {
+    alert('Choose Month and Year');
+  }
+  else
+  {
+        $.ajax({
+
+          method:"GET",
+          url:endpoint,
+          data:{
+
+                    'monthdate':monthdate,
+                    'yeardate':yeardate,
+
+
+                },
+
+          success:function(data){
+
+            labels4=data.labels
+            
+            issue_array11=data.issue_array1
+            issue_array12=data.issue_array2
+            issue_array13=data.issue_array3
+            issue_array14=data.issue_array4
+            m_name=data.m_name
+            console.log('------------------------------')
+            console.log(issue_array11)
+            linechart2()
+          },
+          error:function(error_data){
+
+            console.log("error")
+            console.log(error_data)
+          }
+
+
+        });
+      } 
+
+    });
+
+
+ function linechart2()
+{
+
+    $('#linechartcard').show();  
+    var xx=new Array(4);
+    var months=['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24','25','26','27','28','29','30','31']
+    var data11=issue_array11
+
+    var data12=issue_array12
+    var data13=issue_array13
+    var data14=issue_array14
+
+    var lab1=labels4
+    for(var i=0;i<xx.length;i++){
+     xx[i]=lab1[i];alert(xx[i])}
+    
+
+Highcharts.chart('linechartid1', {
+    chart: {
+        type: 'line',
+       
+       
+    },
+    title: {
+        text: m_name+" "+'Month'+" "+'Issues Chart'
+    },
+    
+    credits: {
+    enabled: false
+        },
+    xAxis: {
+        categories: months,
+      
+
+    },
+    yAxis: {
+        title: {
+            text: 'Values'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: xx[0],
+        data: data11
+    }, {
+        name: xx[1],
+        data: data12
+    }, {
+        name: xx[2],
+        data:data13
+
+    }, {
+        name: xx[3],
+        data: data14
+    }]
+});
+}
 {% endblock jquery %}
 </script>
 {% endblock javascript %}

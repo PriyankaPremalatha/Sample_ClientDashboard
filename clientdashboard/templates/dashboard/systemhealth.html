@@ -12,12 +12,47 @@
         
         <link href="{% static 'effects/styles.css' %}" rel="stylesheet" />
 
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+        <link href="{% static 'css/dataTables.bootstrap4.min.css' %}" rel="stylesheet" crossorigin="anonymous" />
+        <script src="{% static 'js/all.min.js' %}" crossorigin="anonymous' %}"></script>
     </head>
     <body class="sb-nav-fixed">
         {% block content %}
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbg">
+            <!-- start of sidenav -->
+
+            <div id="mySidenav" class="sidenav ">
+                    <a href="">
+                              <img src="{% static 'effects/image/face1.jpeg' %}"  />
+                    </a>
+                  <hr class="solid">
+                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"><i class="fas fa-arrow-left"></i></a>
+                   
+                    
+
+                            <a class="nav-link active" href="{% url 'systemhealth' %}"
+                                ><i class="fas fa-tachometer-alt"></i>
+                                Dashboard</a>
+
+                             <a class="nav-link active" href="{% url 'status' %}"
+                                ><i class="fas fa-chart-area"></i>
+                                Status</a>   
+                           
+                            <a class="nav-link active" href="#t1" id="h1"><i class="fas fa-desktop"></i>
+                                System Information</a>
+
+
+                            <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
+                                ><i class="fas fa-pen"></i>
+                                New System</a>
+
+                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
+                                ><i class="fas fa-file"></i>
+                                Import File</a>
+
+</div>
+<span style="font-size:25px;cursor:pointer; color: white; margin-left: 20px;" onclick="openNav()">&#9776;&nbsp;Dashboard</span>
+<!-- end of sidenav -->
+
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div class="input-group">
@@ -28,100 +63,31 @@
                 </div>
             </form>
             <!-- Navbar-->
-             <div class="nav-item">
-              <a class="nav-link"  style="color: white;">
-                {{request.user.username}}</a>
+
+             <div class="nav-item dropdown" data-toggle="tooltip" data-placement="right" >
+              <a class="nav-link" href="" style="color: white;"data-toggle="dropdown" data-target="">
+                <span class="nav-link-text">{{request.user.username}}</span></a>
+                <ul class="dropdown-menu" >
+                      <li><a class="dropdown-item" href="#profileModal" data-toggle="modal" data-target="#profileModal">View Profile&nbsp;&nbsp;<i class="fas fa-user-circle"></i></a></li>
+
+                      <div class="dropdown-divider" style="border-color:grey;"></div>
+
+                      <li><a class="dropdown-item" href="#exampleModal" data-toggle="modal" data-target="#exampleModal">Log Out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-sign-out-alt"></i></a></li>
+                </ul>
             </div>
 
+             
              <div class="nav-item ">
-              <a class="nav-link" href="#exampleModal" data-toggle="modal" data-target="#exampleModal" style="color: white;"><i class="fas fa-user"></i>&nbsp;Logout</a>
+              <a class="nav-link" href="#exampleModal" data-toggle="modal" data-target="#exampleModal" style="color: white;"><i class="fas fa-sign-out-alt"></i>&nbsp;Logout</a>
                 
             </div>
 
             
         </nav>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            
-                            <a class="nav-link active" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Dashboard</a>
+            
 
-                             <a class="nav-link active" href="{% url 'status' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Status</a>   
-                           
-                            <a class="nav-link active" href="#t1" id="h1"><div class="sb-nav-link-icon"><i class="fas fa-desktop"></i></div>
-                                System Information</a>
-
-
-                            <a class="nav-link active" href="#systemreqModal" data-toggle="modal" data-target="#systemreqModal"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
-                                New System Requirement</a>
-
-                             <a class="nav-link active" href="#importfileModal" data-toggle="modal" data-target="#importfileModal"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                Import File</a>
-                            <!-- <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                Event Viewer</a>
-
-                             <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
-                                PDrive Access</a>
-                              <a class="nav-link" href="{% url 'systemhealth' %}"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-hdd"></i></div>
-                                Hard Disk</a> -->
-                            <!-- <div class="sb-sidenav-menu-heading">Interface</div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Layouts
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav>
-                            </div> -->
-                           <!--  <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Pages
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                            ></a> -->
-                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
-                                        >Authentication
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav>
-                                    </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
-                                        >Error
-                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
-                                    ></a>
-                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
-                                        <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav>
-                                    </div>
-                                </nav>
-                            </div>
-                            <!-- <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts</a
-                            ><a class="nav-link" href="tables.html"
-                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables</a
-                            >
-                        </div>
-                    </div>
-                     -->
-                </nav>
-            </div>
-            <div id="layoutSidenav_content">
-                <main>
+            <div id="main">
+                <main style="margin-top: 60px;">
                     <div class="container-fluid">
                         
                         <ol class="breadcrumb mb-4">
@@ -129,38 +95,38 @@
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-info text-white mb-4">
+                                <div class="card  mb-4">
 
-                                    <div class="card-body"  id="bgstyle">Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#t1">View Details</a>
+                                    <div class="card-body text-white"  id="bgstyle"><i class="fas fa-user c_icon"></i> &nbsp;&nbsp;Users &nbsp;&nbsp;&nbsp;{{systemmodel}}</div>
+                                    <div class="card-footer c_foot d-flex align-items-center justify-content-between">
+                                        <a class="small  stretched-link" href="#t1">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-info text-white mb-4">
-                                    <div class="card-body" id="bgstyle">Logged In System &nbsp;&nbsp;&nbsp;</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                <div class="card  mb-4">
+                                    <div class="card-body text-white" id="bgstyle"><i class="fas fa-desktop c_icon"></i> &nbsp;&nbsp;Logged In System &nbsp;&nbsp;&nbsp; </div>
+                                    <div class="card-footer c_foot d-flex align-items-center justify-content-between">
+                                        <a class="small stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-info text-white mb-4">
-                                    <div class="card-body"  id="bgstyle">Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'healthysys' %}">View Details</a>
+                                <div class="card mb-4">
+                                    <div class="card-body text-white"  id="bgstyle"><i class="fas fa-check c_icon"></i> &nbsp;&nbsp;Healthy System &nbsp;&nbsp;&nbsp;{{syshealth}}/{{systotal}}</div>
+                                    <div class="card-footer c_foot d-flex align-items-center justify-content-between">
+                                        <a class="small stretched-link" href="{% url 'healthysys' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-info text-white mb-4">
-                                    <div class="card-body"  id="bgstyle">Ongoing Issues &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                <div class="card mb-4">
+                                    <div class="card-body text-white"  id="bgstyle"><i class="fas fa-exclamation-triangle c_icon"></i>&nbsp; &nbsp;Ongoing Issues &nbsp;&nbsp;&nbsp;{{sysonissues}}/{{systotal}}</div>
+                                    <div class="card-footer c_foot d-flex align-items-center justify-content-between">
+                                        <a class="small  stretched-link" href="#">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -245,13 +211,13 @@
                     
 </div>
 
-                <!-- Logout Modal-->
+<!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-size: 40px;color: white;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -272,7 +238,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="importfileModalLabel">Choose File to Import</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" style="font-size: 40px;color: white;" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
@@ -285,7 +251,7 @@
               {% csrf_token %}
               <div style="margin-top: 30px;px;" align="center">
               <label style="font-family: Palatino Linotype;">Upload a System Requirement file</label><br>
-                <input type="file" name="file" class="form-control">
+                <input type="file" name="file" class="form-control inpstyle">
                 <p>Only acepts CSV files</p>
                 <button class="btn btn-info" type="submit">Upload File</button>
                 </div>
@@ -298,22 +264,52 @@
       </div>
     </div>
 
+<!-- Profile Upload-->
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="profileModalLabel">Profile Change</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data" action="">
+                  {% csrf_token %}
+                  {{ user_form.as_p }}
+                  {{ profile_form.as_p }}
+                  
+                
+          
+            </div>
+          <div class="modal-footer">
+            
+            <button class="btn btn-info" type="submit" href="">Save Changes</button>
+            <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
 <!-- systemrequirement model -->
     <div class="modal fade" id="systemreqModal" tabindex="-1" role="dialog" aria-labelledby="systemreqModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="systemreqModalLabel">System Requirements</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
+            <div class="modal-title" id="systemreqModalLabel">System Requirements</div>
+            <button class="close" style="font-size: 40px;color: white;" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" >×</span>
             </button>
           </div>
-          <form action="" id="addsystemreq">
+          <form action="" id="addsystemreq" >
             {% csrf_token %}
           <div class="modal-body">
                     <div class="form-group">
-                        <select class="form-control" id="reqpname" name="reqpname">
-                      <option selected>Choose Organization</option>
+                        <select class="form-control inpstyle" id="reqpname" name="reqpname" autofocus="on">
+                      <option >Choose Organization</option>
                       {% if organizationobj %}
                         {% for organizationobjs in organizationobj %}
                         
@@ -326,47 +322,54 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="pname" placeholder="Enter person name who need system" class="form-control">
+                        <input type="text" name="pname" placeholder="Enter person name who need system" class="form-control inpstyle" autocomplete="off">
                     </div>
 
              
 
                     <div class="form-group">
-                     <select class="custom-select" id="hddselect" name="disktype">
-                        <option selected>Choose disk type</option>
+                     <select class="custom-select inpstyle" id="hddselect" name="disktype">
+                        <option >Choose disk type</option>
                         <option value="Standard HDD"> Standard HDD</option>
                         <option value="Standard HDD">Standard SSD</option>
                        
                       </select>
+                      
                     </div>
-
+                    <div class="row">
+                    <div class="col-sm-6">
                     <div class="form-group">
-                        <select class="custom-select" id="diskselect" name="disksize">
-                       <option selected>Choose disk size</option>
-                        <option value="32 GB">32 GB</option>
-                        <option value="64 GB">64 GB</option>
-                        <option value="128 GB">128 GB</option>
-                        <option value="256 GB">256 GB</option>
-                        <option value="512 GB">512 GB</option>
-                        <option value="1024 GB">1024 GB</option>
-                        <option value="2048 GB">2048 GB</option>
-                        <option value="4096 GB">4096 GB</option>
-                        <option value="8192 GB">8192 GB</option>
-                        <option value="16384 GB">16384 GB</option>
-                        <option value="32767 GB">32767 GB</option>
+                        <select class="custom-select inpstyle" id="diskselect" name="disksize">
+                       <option >Choose disk size</option>
+                         <option value="1 GB">1 GB</option>
+                           <option value="2 GB">2 GB</option>
+                           <option value="4 GB">4 GB</option> 
+                           <option value="8 GB">8 GB</option> 
+                           <option value="16 GB">16 GB</option> 
+                           <option value="32 GB">32 GB</option>
+                            <option value="64 GB">64 GB</option>
+                            <option value="1 TB">1 TB</option>
+                            <option value="2 TB">2 TB</option>
+                            <option value="4 TB">4 TB</option>
+                            <option value="8 TB">8 TB</option>
+                            <option value="16 TB">16 TB</option>
+                            <option value="32 TB">32 TB</option>
 
 
 
                       </select>
                     </div>
-
+                    </div>    
+                    <div class="col-sm-6">
                     <div class="form-group">
-                    <input type="number" name="ndisk" class="form-control" placeholder="No. of disk ">
+                    <input type="number" name="ndisk" class="form-control inpstyle" placeholder="No. of disk ">
+                    </div>
+                    </div>
                     </div>
 
                     <div class="form-group">
-                        <select class="custom-select" id="coreselect" name="cpucore">
-                            <option selected>Choose CPU Core</option>
+                        <select class="custom-select inpstyle" id="coreselect" name="cpucore">
+                            <option >Choose CPU Core</option>
                             <option value="1 Core">1 Core</option>
                             <option value="2 Cores">2 Cores</option>
                             <option value="4 Cores">4 Cores</option>
@@ -378,8 +381,8 @@
                     </div>
 
                      <div class="form-group">
-                                            <select class="custom-select" id="ramselect" name="ramsize">
-                           <option selected>Choose RAM size</option>
+                                            <select class="custom-select inpstyle" id="ramselect" name="ramsize">
+                           <option >Choose RAM size</option>
                            
                            <option value="1 GB">1 GB</option>
                            <option value="2 GB">2 GB</option>
@@ -401,7 +404,7 @@
                     </div>
 
                      <div class="form-group">
-                     <input type="text" name="nmonitors" class="form-control" placeholder="No.of monitors">
+                     <input type="text" name="nmonitors" class="form-control inpstyle" placeholder="No.of monitors">
                     </div>
 
                     
@@ -422,19 +425,19 @@
         </div>
 
         {% endblock  %}   
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/jquery-3.4.1.min.js' %}" crossorigin="anonymous"></script>
+         <script src="{% static 'js/bootstrap.bundle.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'js/scripts.js' %}"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/Chart.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'demo/chart-area-demo.js' %}"></script>
         <script src="{% static 'demo/chart-bar-demo.js' %}"></script>
         <script src="{% static 'demo/chart-pie-demo.js' %}"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+        <script src="{% static 'js/jquery.dataTables.min.js' %}" crossorigin="anonymous"></script>
+        <script src="{% static 'js/dataTables.bootstrap4.min.js' %}" crossorigin="anonymous"></script>
         <script src="{% static 'demo/datatables-demo.js' %}"></script>
-         <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/highcharts-3d.js"></script>
+         <script src="{% static 'js/highcharts.js' %}"></script>
+        <script src="{% static 'js/highcharts-3d.js' %}"></script>
 {% block javascript %}
 
 <script>
@@ -468,7 +471,7 @@
 
 
 
-            if(pname=="" && reqpname=="" && disktype=="Choose disk type" && ramsize=="Choose RAM size" && cpucore=="Choose CPU Core")
+            if(pname=="" || reqpname=="Choose Organization" || disktype=="Choose disk type" || disksize=="Choose disk size" || ndisk=="" || cpucore=="Choose CPU Core" ||  ramsize=="Choose RAM size")
               {
 
                 alert("Please Enter missing fields");
@@ -480,7 +483,7 @@
                   
 
                    $.ajax({
-                            url:'{% url "systemreqinsert" %}',
+                          url:'{% url "systemreqinsert" %}',
                             
                           
                           data:{
@@ -496,7 +499,7 @@
                                   
                           },
                           dataType:'json',
-                          success:function()
+                          success:function(data)
                           {
                             alert('System Information added Successfully');
 
@@ -872,6 +875,18 @@ function spacechart()
          pointFormat: '<h6>{point.percentage:.1f}% </h6>',
     }
 });
+}
+
+//sidenav 
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
 }
 
 

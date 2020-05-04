@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/chart/data/sample/',views.ChartDataSample.as_view(),name='chart-data-sample'),
     path('api/chart/data/hddspace/',views.ChartDataHddspace.as_view(),name='chart-data-hddspace'),
     path("admindashboard/",include("admindashboard.urls")),
+    path('api/monthyear/data/',views.MonthYearData.as_view(),name='chart-monthyear-data'),
 ]

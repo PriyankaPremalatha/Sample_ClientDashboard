@@ -1,5 +1,7 @@
 from django.urls import path
 from clientdashboard import views
+from django.conf import settings 
+from django.conf.urls.static import static 	
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 urlpatterns=[
@@ -28,7 +30,14 @@ urlpatterns=[
 	path('api/chart/data/sample/',views.ChartDataSample.as_view(),name='chart-data-sample'),
 	path('api/chart/data/hddspace/',views.ChartDataHddspace.as_view(),name='chart-data-hddspace'),
 	
-	
-	
+	path("profile/",views.profile,name="profile"),
+	path('api/monthyear/data/',views.MonthYearData.as_view(),name='chart-monthyear-data'),
+	# path("profileupload/",views.profileupload,name="profileupload"),
+	path('render/pdf/',views.Pdf.as_view()),
+
 
 ]
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)

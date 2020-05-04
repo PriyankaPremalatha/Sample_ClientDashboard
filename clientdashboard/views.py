@@ -7,7 +7,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from clientdashboard.models import SystemInfo,SystemRequirementModel
 from django.views.generic import ListView
-
+from django.utils import timezone
 from django.http import JsonResponse
 from supportteamapp.models import OrgInsertion,SystemUpdateModel
 from django.views.generic import View
@@ -17,10 +17,14 @@ from rest_framework.response import Response
 from django.db.models import Q
 from django.db.models import Count
 from django.db.models.functions import TruncMonth as Month, TruncYear as Year
-
-from django.template.loader import get_template
 from django.http import HttpResponse
-import datetime 
+from datetime import date
+from datetime import time
+from datetime import datetime
+from datetime import timedelta
+import datetime
+import calendar
+from .render import Render
 # Create your views here.
 def registerform(request):
 	if request.method=="POST":
@@ -110,7 +114,9 @@ class SystemRequirementInsert(View):
 	def get(self,request):
 
 		name=request.GET.get('reqpname',None)
+
 		reqpname1=OrgInsertion.objects.get(organizationname=name)
+
 		pname1=request.GET.get('pname',None)
 		hddtype1=request.GET.get('hddtype',None)
 		disksize1=request.GET.get('disksize',None)
@@ -139,19 +145,19 @@ class SystemRequirementInsert(View):
 		print(obj)
 		userss={'id':obj.id,
 					
-					'reqpname':reqpname,
-					'pname':pname,
-					'hddtype':hddtype,
-					'disksize':disksize,
-					'ndisk':ndisk,
-					'cpucore':cpucore,
-					'ramsize':ramsize,
-					'nmonitors':nmonitors,
+					'reqpname':obj.reqpname,
+					'pname':obj.pname,
+					'hddtype':obj.hddtype,
+					'disksize':obj.disksize,
+					'ndisk':obj.ndisk,
+					'cpucore':obj.cpucore,
+					'ramsize':obj.ramsize,
+					'nmonitors':obj.nmonitors,
 					
 					
 				}
 
-		data={'userss':userss}
+		data={'userss':list(userss)}
 
 		return JsonResponse(data)
 
@@ -211,18 +217,18 @@ class ChartData(APIView):
     	
     	fromdate=request.GET.get('fromdate',None)
     	todate=request.GET.get('todate',None)
-
-    	date_str=fromdate
-    	day,month,year=date_str.split(',')
-    	print(day, month, year)
-
-    	date_str1=todate
-    	day,month,year=date_str1.split(',')
-    	print(day, month, year)
-
-    	start_date = datetime.date(year,month,day)
-    	end_date = datetime.date(year,month,day)
-    	result=end_date-start_date
+    
+    	# start_date = datetime.date(2020,3,31)
+    	# end_date = datetime.date(2020,4,30)
+    	sd = datetime.datetime.strptime(fromdate, '%Y-%m-%d')
+    	print(sd)
+    	
+    	print("================================================----------------------------===========================")
+    	start_date = datetime.datetime.strptime(fromdate, '%Y-%m-%d')
+    	monthname=start_date.strftime("%B")
+    	start_date -= datetime.timedelta(days=1)
+    	end_date = datetime.datetime.strptime(todate, '%Y-%m-%d')
+    	result=end_date-start_date	
     	issue_array1=[]
     	issue_array2=[]
     	issue_array3=[]
@@ -240,10 +246,11 @@ class ChartData(APIView):
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
     	
-    	data={"labels":labels,'issue_array1':issue_array1,'issue_array2':issue_array2,'issue_array3':issue_array3,'issue_array4':issue_array4}
+    	data={'labels':labels,'issue_array1':issue_array1,'issue_array2':issue_array2,'issue_array3':issue_array3,'issue_array4':issue_array4,'m_name':monthname}
     	print(issue_array1)
     
     	return Response(data)    
+
 
 
 def status(request):
@@ -267,10 +274,20 @@ class ChartDataDepartment(APIView):
     	syshealth2=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="Need Attention").count()
     	syshealth3=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="Urgent Need Attention").count()
     	syshealth4=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,healthstatus="No Maintenance").count()
-	    	
+
+    	issue1=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,issues='None').count()
+    	issue2=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,issues="Error").count()
+    	issue3=SystemUpdateModel.objects.filter(orgname=orgid1,department=sysdepartment,issues="Office 2016 licensing").count()
+    	issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),~Q(issues='No Error'),orgname=orgid1).count()
+	    
+
     	labels=['Healthy','Need Attention','Urgent Need Attention','No Maintenance']
     	default_items=[syshealth1,syshealth2,syshealth3,syshealth4]
-    	data={"labels":labels, "default":default_items,'sysdepartment':sysdepartment}
+
+    	issuelabels=['No Error','Error','Office 2016 licensing Error','Others']
+    	depissues=[issue1,issue2,issue3,issue4]
+    	
+    	data={"labels":labels, "default":default_items,'sysdepartment':sysdepartment,"deplabels":issuelabels,"depissues":depissues}
     	
     	return Response(data)
 
@@ -294,6 +311,9 @@ class ChartDataIssues(APIView):
 	    	
     	labels=['No Error','Error','Office 2016 licensing Error','Others']
     	default_items=[issue1,issue2,issue3,issue4]
+    	
+    	
+
     	data={"labels":labels, "default":default_items}
     	
     	
@@ -362,3 +382,104 @@ class ChartDataHddspace(APIView):
 
 
 
+def profile(request):
+	return render(request,'dashboard/profile.html')
+
+# def profileupload(request):
+# 	if request.method == 'POST':
+# 		user_form = UserForm(request.POST, instance=request.user)
+# 		profile_form = ProfileForm(request.POST,request.FILES, instance=request.user.profile)
+# 		if user_form.is_valid() and profile_form.is_valid():
+# 			user_form.save()
+# 			profile_form.save()
+# 			messages.success(request,'Uploaded Successfully')
+# 			return redirect('systemhealth')
+# 		else:
+# 			messages.error(request, 'systemhealth.html',('Please correct the error below.'))
+# 	else:
+# 		user_form = UserForm(instance=request.user)
+# 		profile_form = ProfileForm(instance=request.user.profile)
+# 	return render(request, 'systemhealth.html', {
+#         'user_form': user_form,
+#         'profile_form': profile_form
+#     })
+
+
+class MonthYearData(APIView):
+   
+    
+    def get(self, request, format=None):
+    	
+    	sysorgname=request.user.username
+    	org1=OrgInsertion.objects.get(organizationname=sysorgname)
+    	orgid1=org1.id
+    	
+    	m1=request.GET.get('monthdate',None)
+    	y1=request.GET.get('yeardate',None)
+
+    	_, num_days = calendar.monthrange(int(y1), int(m1))
+    	first_day = datetime.date(int(y1), int(m1), 1)
+    	last_day = datetime.date(int(y1), int(m1), num_days)
+
+    	fd=first_day.strftime('%Y-%m-%d')
+    	ld=last_day.strftime('%Y-%m-%d')
+    	
+    	
+    	print("================================================----------------------------===========================")
+    	start_date = datetime.datetime.strptime(fd, '%Y-%m-%d')
+    	monthname=start_date.strftime("%B")
+    	start_date -= datetime.timedelta(days=1)
+    	end_date = datetime.datetime.strptime(ld, '%Y-%m-%d')
+    	result=end_date-start_date	
+    	issue_array1=[]
+    	issue_array2=[]
+    	issue_array3=[]
+    	issue_array4=[]
+    	for i in range(result.days):
+    		start_date += datetime.timedelta(days=1)
+    		issue1=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="None").count()
+    		issue2=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="Error").count()
+    		issue3=SystemUpdateModel.objects.filter(date=start_date,orgname=orgid1,issues="Office 2016 licensing").count()
+    		issue4=SystemUpdateModel.objects.filter(~Q(issues='None'),~Q(issues='Error'),~Q(issues='Office 2016 licensing'),~Q(issues=''),orgname=orgid1,date=start_date).count()
+    		issue_array1.append(issue1)
+    		issue_array2.append(issue2)
+    		issue_array3.append(issue3)
+    		issue_array4.append(issue4)
+	    	
+    	labels=['No Error','Error','Office 2016 licensing Error','Others']
+    	
+    	data={'labels':labels,'issue_array1':issue_array1,'issue_array2':issue_array2,'issue_array3':issue_array3,'issue_array4':issue_array4,'m_name':monthname}
+    	print(issue_array1)
+    
+    	return Response(data)    
+
+
+
+class Pdf(View):
+    def get(self,request):
+         sysorgname=request.user.username
+         org1=OrgInsertion.objects.get(organizationname=sysorgname)
+         orgid1=org1.id
+         data1=SystemUpdateModel.objects.filter(orgname=orgid1).all() 
+         today = timezone.now()
+
+         params = {
+        'data1': data1,
+        'today': today,
+        'request': request,
+         }
+         return Render.render('dashboard/pdffile.html', params)
+    
+        
+   
+    
+     
+            
+   
+    
+    
+
+    
+   
+
+   

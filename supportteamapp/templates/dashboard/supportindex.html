@@ -742,7 +742,6 @@
             <div><button id="taskeventfile" class="btn btn-default" >TaskEvent Information</button></div>
             <!-- system information -->
             <div id="sysinfoid" style="display: none">
-              
               <form method="post" enctype="multipart/form-data" id="addsysfile" action="systemfile_upload/">
               {% csrf_token %}
               <div style="margin-top: 50px;px;">
@@ -781,9 +780,7 @@
                 </div>
               </form>
             </div>
-
           </div>
-         
         </div>
       </div>
     </div>
@@ -805,7 +802,7 @@
                   {% csrf_token %}
                      <div class="form-group">
                      <select class="form-control" id="orgnameid" name="orgname">
-                      <option selected>Choose Organization</option>
+                      <option >Choose Organization</option>
                       {% if organizationobj %}
                         {% for organizationobjs in organizationobj %}
                         
@@ -824,7 +821,7 @@
 
                     <div class="form-group">
                      <select class="form-control" id="department" name="department">
-                        <option selected>Choose department</option>
+                        <option >Choose department</option>
                         <option value="Department1">Department1</option>
                         <option value="Department2">Department2</option>
                        
@@ -834,7 +831,7 @@
 
                     <div class="form-group">
                      <select class="form-control" id="hddspace" name="hddspace">
-                        <option selected>Disk Space</option>
+                        <option >Disk Space</option>
                         <option value="Normal">Normal</option>
                         <option value="Critical">Critical</option>
                        
@@ -843,7 +840,7 @@
                     </div>
                     <div class="form-group">
                         <select class="form-control" id="ramsize" name="ramsize">
-                            <option selected>Select RAM size</option>
+                            <option >Select RAM size</option>
                        
                              <option value="1 GB">1 GB</option>
                            <option value="2 GB">2 GB</option>
@@ -864,7 +861,7 @@
 
                     <div class="form-group">
                      <select class="form-control" id="winstatus" name="winstatus">
-                        <option selected>Windows Update Status</option>
+                        <option >Windows Update Status</option>
                         <option value="Updated">Updated</option>
                         <option value="Not Updated">Not Updated</option>
                        
@@ -884,7 +881,7 @@
 
                      <div class="form-group">
                      <select class="form-control" id="healthstatus" name="healthstatus">
-                        <option selected>Health Status</option>
+                        <option>Health Status</option>
                         <option value="Healthy">Healthy</option>
                         <option value="Need Attention">Need Maintenance</option>
                         <option value="Urgent Need Attention">Urgent Need Maintenance</option>
@@ -896,7 +893,7 @@
 
                     <div class="form-group">
                      <select  id="powerstatus" name="powerstatus" class="form-control">
-                        <option selected>Power Status</option>
+                        <option>Power Status</option>
                         <option value="Power On">Power On</option>
                         <option value="Power Off">Power Off</option>
                       </select>
@@ -973,7 +970,7 @@
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-          </div>
+           </div>
           
             <form action="" id="addTicket">
               {% csrf_token %}
@@ -987,7 +984,6 @@
                 
                    <div class="form-group">
                     <label for="organization">Organization</label>
-                  
                   
                     <select id="organization" class="form-control" name="organization">
                       {% for orgobjs in orgobj %}
@@ -1411,7 +1407,7 @@
               var date=$('input[name="date"]').val().trim();
 
               
-              if(sysname=="" && orgname=="Choose Organization" && diskspace=="Disk Space" && ramsize=="Select RAM size" && winupdate=="Windows Update Status" && powerstatus=="Power Status" && syshealth=="Health Status")
+              if(sysname=="" || orgname=="Choose Organization" ||department=="Choose department" || diskspace=="Disk Space" || ramsize=="Select RAM size" || winupdate=="Windows Update Status" || powerstatus=="Power Status" || syshealth=="Health Status")
               {
                 alert("Please Enter missing fields");
                 

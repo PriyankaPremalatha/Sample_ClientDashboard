@@ -33,14 +33,21 @@
             "showClose": true,
             "showClear": true,
             "showTodayButton": true,
-            "format": "YYYY,M,D",
+            "format": "YYYY-M-D",
         });
        $('#id_5').datetimepicker({
             "allowInputToggle": true,
             "showClose": true,
             "showClear": true,
             "showTodayButton": true,
-            "format": "YYYY,M,D",
+            "format": "YYYY-M-D",
+        }); 
+       $('#id_6').datetimepicker({
+            "allowInputToggle": true,
+            "showClose": true,
+            "showClear": true,
+            "showTodayButton": true,
+            "format": "YYYY MM",
         }); 
     });
 })(jQuery);
